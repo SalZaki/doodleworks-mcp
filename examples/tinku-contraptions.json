@@ -1,0 +1,24 @@
+{
+  "title": "Tinku contraption examples",
+  "resolution": "1k",
+  "illustrations": [
+    {
+      "title": "The bottleneck",
+      "archetype": "process",
+      "aspect": "16:9",
+      "prompt": "A tall, narrow funnel mounted on a little frame, its neck far too thin for the work. A crowd of identical small boxes piles up and JAMS in a heap above the neck, while only a thin trickle dribbles out the bottom into a tiny tray. Tinku stands on a step beside the funnel, gripping a hand-crank on its side with both mitten-hands and straining to force the pile through — eyes squeezed shut, leaning his whole weight into it. Required text only (render exactly, and NO other text anywhere in the image): a small label on the funnel neck \"the bottleneck\"; one tiny word by the jam \"stuck\"; one word by the trickle \"output\". Do not add any other words, captions, labels, watermarks, or UI text."
+    },
+    {
+      "title": "Technical debt",
+      "archetype": "stack",
+      "aspect": "16:9",
+      "prompt": "A teetering tower of mismatched boxes patched together with tape, string, and odd brackets, leaning badly to one side and about to topple. Tinku is wedged underneath, propping the whole stack up with one thin bent stick, legs braced and arms trembling, eyes wide with alarm as a box slides off the top. Required text only (render exactly, and NO other text anywhere in the image): one label down the tower \"tech debt\"; one tiny word on the bending stick \"one fix left\"; one word by the sliding box \"wobbles\". Do not add any other words, captions, labels, watermarks, or UI text."
+    },
+    {
+      "title": "Compounding",
+      "archetype": "cycle",
+      "aspect": "16:9",
+      "prompt": "A little circular track with a snowball rolling around it, and a hand-crank geared to the track at the bottom. Each full loop the snowball passes a chute that dumps more snow onto it, so it leaves the loop bigger every time — growing from pebble-size to boulder-size around the ring. Tinku turns the crank steadily with both hands, glancing up wide-eyed at how big the snowball has already become. Required text only (render exactly, and NO other text anywhere in the image): one word at the small start \"start\"; one short note at the big end \"each loop bigger\"; a tiny label on the crank \"keep turning\". Do not add any other words, captions, labels, watermarks, or UI text."
+    }
+  ]
+}
