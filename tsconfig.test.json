@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.server.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "emitDeclarationOnly": false,
+    "types": ["node"]
+  },
+  "include": ["test", "server.ts", "main.ts", "engine.ts", "types.ts"]
+}
