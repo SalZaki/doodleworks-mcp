@@ -55,7 +55,7 @@ const RESOURCE_URI = "ui://doodleworks-mcp/viewer.html";
 // planning rules even without the doodleworks-tech-slides skill installed. plan_illustrations embeds
 // the core rules inline; these resources hold the full text.
 const REFERENCE_DOCS: ReadonlyArray<{ name: string; title: string; description: string }> = [
-  { name: "visual-dna", title: "Visual DNA", description: "The Tinku house style: pure-white background, wobbly black linework, sparse red/orange/blue handwritten English annotations." },
+  { name: "visual-dna", title: "Visual DNA", description: "The Tinku house style: pure-white background, clean even black line, sparse red/orange/blue handwritten English annotations." },
   { name: "concept-engine", title: "Concept engine", description: "Cognitive anchor → low-tech contraption Tinku operates; the erase-test; no literal topic pictures." },
   { name: "composition-patterns", title: "Composition patterns", description: "Secondary layout aids (process, cycle, stack, taxonomy, matrix, timeline, decision, data-shape, summary) for arranging a contraption — never a literal chart." },
   { name: "prompt-patterns", title: "Prompt patterns", description: "How to write an illustration prompt: contraption + Tinku's action + the Required-text block (red/orange/blue, terse)." },
@@ -219,8 +219,8 @@ const styleReferenceField = z
   .string()
   .optional()
   .describe(
-    "Optional drawing-style reference for the whole set (style calibration only — linework, paper tone, hatching, " +
-      "whitespace, restraint; NEVER the reference's character, layout, or text). Accepts a library id, a data-URI, " +
+    "Optional drawing-style reference for the whole set (style calibration only — the clean even line weight, the " +
+      "pure-white background, whitespace, restraint; NEVER the reference's character, layout, or text). Accepts a library id, a data-URI, " +
       "or a local path. Per-illustration styleReference wins; with none set (and no DOODLEWORKS_STYLE_REF env), " +
       "output is the engine's text-only style guidance." +
       styleRefHint,
@@ -576,7 +576,7 @@ export function createServer(deps: { renderPage?: RenderPageFn } = {}): McpServe
         : "_No references bundled yet. Drop image files into `assets/style-references/` to populate the library._";
       const text =
         "# Style-reference library\n\n" +
-        "These images calibrate the DRAWING STYLE ONLY — linework weight and wobble, the pure-white background, " +
+        "These images calibrate the DRAWING STYLE ONLY — the clean even line weight, the pure-white background, " +
         "whitespace, and restraint. They are **not** composition templates and **not** the source of the Tinku " +
         "character. Pass an id below as `styleReference` on `create_illustrations`/`regenerate_illustration`, or set the " +
         "`DOODLEWORKS_STYLE_REF` environment variable.\n\n" +
