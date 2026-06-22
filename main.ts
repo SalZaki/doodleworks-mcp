@@ -100,12 +100,15 @@ export async function startStreamableHTTPServer(factory: () => McpServer): Promi
   // Bind explicitly to loopback. `createMcpExpressApp({ host: "127.0.0.1" })` only installs
   // a Host-header validator — it does NOT bind the socket. Without the host arg below,
   // express.listen defaults to 0.0.0.0 and the server is reachable from the LAN.
-  const httpServer = app.listen(port, "127.0.0.1", (err?: Error) => {
-    if (err) {
-      console.error("Failed to start server:", err);
-      process.exit(1);
-    }
-    console.log(`Doodleworks MCP MCP server on http://localhost:${port}/mcp`);
+  const httpServer = app.listen(port, "127.0.0.1", () => {
+    console.log(`Doodleworks MCP server on http://localhost:${port}/mcp`);
+  });
+  // listen's callback fires on the 'listening' event and never receives an error argument.
+  // Startup failures (e.g. EADDRINUSE when the port is already taken) arrive as an 'error'
+  // event instead — catch them here, otherwise Node throws the error as an uncaught exception.
+  httpServer.on("error", (err) => {
+    console.error("Failed to start server:", err);
+    process.exit(1);
   });
 
   const shutdown = () => httpServer.close(() => process.exit(0));
