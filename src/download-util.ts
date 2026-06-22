@@ -10,15 +10,20 @@
 
 /** Split a `data:<mime>;base64,<payload>` URI into the parts `app.downloadFile` needs. */
 export function dataUriToBlob(dataUri: string): { mimeType: string; blob: string } | null {
-  const match = /^data:([^;,]+)?(;base64)?,(.*)$/s.exec(dataUri);
+  // RFC 2397 allows zero or more `;param=value` attributes between the mime and the payload
+  // (e.g. `data:image/png;charset=utf-8;base64,...`). Capture them all and detect `base64`
+  // among them, rather than only accepting a bare `;base64` — engine.ts's parseDataUri does
+  // the same; keep the two in sync.
+  const match = /^data:([^;,]+)?((?:;[^,]+)*),(.*)$/s.exec(dataUri);
   if (!match) return null;
   const mimeType = match[1] || "image/png";
-  if (match[2]) return { mimeType, blob: match[3] };
+  const params = match[2] || "";
+  const payload = match[3];
+  if (/(?:^|;)base64(?:$|;)/.test(params)) return { mimeType, blob: payload };
 
   // Non-base64 payload: each `%XX` is one raw byte (RFC 2397). `btoa(decodeURIComponent(...))`
   // is wrong here — decodeURIComponent collapses UTF-8 sequences into JS code points that may
   // exceed 0xFF, which btoa rejects. Decode straight to bytes, then base64 those.
-  const payload = match[3];
   const bytes: number[] = [];
   for (let i = 0; i < payload.length; i++) {
     if (payload[i] === "%" && i + 2 < payload.length) {
