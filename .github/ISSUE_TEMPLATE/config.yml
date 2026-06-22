@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📘 Project README
+    url: https://github.com/SalZaki/doodleworks-mcp/blob/main/README.md
+    about: Setup, prerequisites, configuration, tools, viewer, and usage.
+  - name: 🧭 Issue workflow
+    url: https://github.com/SalZaki/doodleworks-mcp/blob/main/docs/ISSUE_WORKFLOW.md
+    about: How Epics, Features, User Stories, and Sub-tasks fit together — required reading before filing.
+  - name: 🛡️ Security disclosures
+    url: https://github.com/SalZaki/doodleworks-mcp/security/advisories/new
+    about: Report a vulnerability privately. Do not open a public issue for security problems.
