@@ -14,6 +14,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `homepage`, `keywords`, `engines`, `packageManager`).
 - Per-set cap on the number of illustrations to guard against unbounded paid
   image renders.
+- Stale-viewer guard: a `VIEWER_CONTRACT_VERSION` handshake so the viewer reports
+  a version skew precisely (instead of a generic error), a clear "run
+  `pnpm run build`" error when the viewer bundle is missing, and a `prepare`
+  script so `pnpm install` always builds the viewer.
 
 ### Changed
 - Pinned the previously wildcard (`*`) runtime dependencies to known-good
