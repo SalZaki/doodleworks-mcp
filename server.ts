@@ -157,6 +157,9 @@ async function renderSetInBackground(
       while (true) {
         const i = cursor++;
         if (i >= specs.length) return;
+        // Stop if this set was evicted from the cache mid-render — its results are no longer
+        // reachable, so there's no point spending the image API on the rest of it.
+        if (setCache.get(setId) !== set) return;
         try {
           // Per-illustration styleReference (on the spec) wins over the set-wide one inside renderPage.
           const img = await renderPage(specs[i], { resolution, styleReference: setStyleRef, quality });
@@ -276,7 +279,9 @@ export function createServer(deps: { renderPage?: RenderPageFn } = {}): McpServe
       // the host's per-request timeout and the call would be reported as timed out. The viewer
       // streams each illustration in via get_illustration as it becomes ready.
       const setId = randomUUID();
-      const title = args.title ?? null;
+      // Treat an empty or whitespace-only title as "untitled" everywhere (cache, summary,
+      // structuredContent) so they can't disagree — one storing "" while the others omit it.
+      const title = args.title?.trim() ? args.title : null;
       const illustrations: CachedIllustration[] = specs.map((p, index) => ({
         index,
         title: p.title,
@@ -287,8 +292,8 @@ export function createServer(deps: { renderPage?: RenderPageFn } = {}): McpServe
         styleReference: p.styleReference,
       }));
       rememberSet(setId, { title, illustrations, styleReference: setStyleRef, resolution, quality });
-      // Fire-and-forget; errors are captured per illustration inside, and the final .catch is a
-      // belt-and-braces guard so a background failure can never surface as an unhandled rejection.
+      // Fire-and-forget; errors are captured per illustration inside, and the final .catch keeps a
+      // background failure from surfacing as an unhandled rejection.
       void renderSetInBackground(renderPage, setId, specs, resolution, setStyleRef, quality).catch(() => {});
 
       const titles = illustrations.map((p) => p.title).join(", ");
@@ -298,13 +303,13 @@ export function createServer(deps: { renderPage?: RenderPageFn } = {}): McpServe
           {
             type: "text" as const,
             text: `Rendering a set of ${illustrations.length} illustrations${
-              args.title ? ` ("${args.title}")` : ""
+              title ? ` ("${title}")` : ""
             }: ${titles}. Opening the viewer — illustrations stream in as they finish; regenerate or download once they appear.`,
           },
         ],
         // Model-visible structured awareness, still no bytes.
         structuredContent: {
-          title: args.title,
+          title,
           illustrationCount: illustrations.length,
           illustrations: illustrations.map(({ index, title, archetype, aspect }) => ({ index, title, archetype, aspect })),
         },
@@ -416,6 +421,18 @@ export function createServer(deps: { renderPage?: RenderPageFn } = {}): McpServe
       const cached = args.setId ? touchSet(args.setId) : undefined;
       const cachedIllustration =
         cached && args.index !== undefined && args.index >= 0 ? cached.illustrations[args.index] : undefined;
+      // If the caller named a set to update, the target must exist — otherwise the regen would spend
+      // a paid render and return an image get_illustration can never serve (nothing gets cached). Fail
+      // fast instead of producing a throwaway. (No setId is an intentional view-only regen — allowed.)
+      if (args.setId && !cachedIllustration) {
+        return {
+          content: [
+            { type: "text" as const, text: "Can't regenerate: unknown set or illustration index (the set may have expired)." },
+          ],
+          structuredContent: { ok: false, status: "missing" as const, index: args.index },
+          _meta: {},
+        };
+      }
       const setStyleRef = args.styleReference ?? cached?.styleReference;
       const illustrationStyleRef = cachedIllustration?.styleReference;
       const resolution = ((args.resolution as Resolution | undefined) ?? cached?.resolution ?? "1k") as Resolution;
