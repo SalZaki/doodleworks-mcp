@@ -70,7 +70,7 @@ Doodleworks is an **MCP App**: it exposes tools *and* an interactive UI. Every h
 | **Cursor** (2.6+) | ✅ | ✅ | Cleanest experience |
 | **VS Code** (1.109+) | ✅ | ✅ | Copilot agent mode |
 | **Goose Desktop** (1.19.1+) | ✅ | ✅ | Viewer is experimental |
-| **Claude Desktop** | ✅ | ⚠️ | Tools work; iframe falls back to text on some current builds (see below) |
+| **Claude Desktop** | ✅ | ✅ | Fully quit + relaunch after editing config |
 | **Claude Code** | ✅ | ❌ | Terminal has no webview |
 | **Windsurf** | ✅ | ❌ | Tools only |
 | **MCPJam / basic-host** (dev) | ✅ | ✅ | Most reliable way to see the viewer |
@@ -146,7 +146,7 @@ Or use the UI: **Sidebar → Extensions → Add custom extension** (Type: *Stand
 </details>
 
 <details id="claude-desktop">
-<summary><b>Claude Desktop</b> — tools work; viewer is currently partial ⚠️</summary>
+<summary><b>Claude Desktop</b> — full viewer</summary>
 
 Open **Settings → Developer → Edit Config** (or edit `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS, `%APPDATA%\Claude\claude_desktop_config.json` on Windows):
 
@@ -162,7 +162,7 @@ Open **Settings → Developer → Edit Config** (or edit `~/Library/Application 
 }
 ```
 
-Save, then **fully quit and relaunch** Claude Desktop (Cmd+Q — not just closing the window). The tools will work. **Heads-up:** as of early–mid 2026 there are open bugs where Claude Desktop negotiates the MCP App but renders a *text fallback* instead of the iframe gallery for stdio servers — so the viewer may not appear on your build. To reliably see the gallery, use Cursor/VS Code or the dev inspectors below.
+Save, then **fully quit and relaunch** Claude Desktop (Cmd+Q — not just closing the window), and the viewer renders inline in the chat. (If an older build shows only a text fallback instead of the gallery, update Claude Desktop — and make sure you ran `pnpm build` so `dist/mcp-app.html` exists.)
 
 </details>
 
