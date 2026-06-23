@@ -170,7 +170,7 @@ or the MCPJam inspector: run `pnpm start` here (Streamable HTTP on `:3001`) and 
 - `create_illustrations` — `{ title?, illustrations: [{ title, archetype?, aspect?, prompt, styleReference? }], resolution?, quality?, styleReference? }`.
   Each `prompt` is one illustration's contraption + Tinku's action + a `Required text only:` block. The
   server adds the Tinku character, the conceptual engine, and the house style automatically, so don't restate
-  them. The `illustrations` array takes 1–8 entries (the per-set cap; one paid render each).
+  them. The `illustrations` array takes 1–10 entries (the per-set cap; one paid render each).
   `aspect` defaults to `16:9`; `21:9` is an optional wider hero (not a cover). `resolution` is `1k`
   (default) or `2k`. `quality` is `low | medium | high | auto` (default `low`; raise it when texture matters
   — see [Render speed](#render-speed)). `styleReference` (set-wide, or per illustration) is optional — see
