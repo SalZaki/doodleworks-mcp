@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Personal MCP App: single-idea, hand-drawn \"Tinku\" line illustrations rendered inline in an MCP host; bring-your-own image API key (OpenAI/Gemini).",
+  "description": "Turn any idea, blog post, article, or X post into hand-drawn \"Tinku\" illustrations that explain the key concepts — an MCP App with an interactive viewer for your AI host; bring-your-own image API key (OpenAI/Gemini).",
   "license": "MIT",
   "author": "Salahuddin Zaki <salzaki@hotmail.com>",
   "repository": {
