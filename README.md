@@ -1,5 +1,14 @@
 # Doodleworks MCP — personal MCP App
 
+[![CI](https://github.com/SalZaki/doodleworks-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/SalZaki/doodleworks-mcp/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+![status: personal-tier](https://img.shields.io/badge/status-personal--tier-orange)
+
+> Status — personal-tier / experimental. A local, single-user MCP server you run yourself. It builds
+> and its test suite passes (see [Status & validation](#status--validation)), but it's maintained in
+> spare time; bring your own image-API key and expect rough edges.
+
 Renders single-idea, clean-line "Tinku" illustrations for an article or post and shows them in an
 interactive viewer inside your MCP host: flip through, regenerate any image, download PNGs. This is the
 personal tier — a local stdio server, bring-your-own image API key (read from the environment), images
@@ -19,6 +28,19 @@ The planning knowledge ships with the app, so no separate skill is needed:
 All on-image text is English-only, and you can optionally condition generation on a style-reference image
 for drawing-style consistency. A "set" is a group of single-idea Tinku illustrations (each 16:9, with an
 optional 21:9 hero). With nothing extra configured, it still renders through the same tools and viewer.
+
+## Quick start
+
+```bash
+git clone https://github.com/SalZaki/doodleworks-mcp.git
+cd doodleworks-mcp
+pnpm install
+pnpm build                    # type-checks + bundles the viewer into dist/mcp-app.html
+export OPENAI_API_KEY=sk-...   # or GEMINI_API_KEY / GOOGLE_API_KEY — bring your own
+```
+
+Then point a graphical MCP host at `main.ts --stdio` (see [Add it to a host](#add-it-to-a-host)) and
+ask it to create illustrations. No API key is needed to build or test — only to render.
 
 ## How it works
 
@@ -68,9 +90,9 @@ pnpm build             # type-checks and bundles the View into dist/mcp-app.html
 export OPENAI_API_KEY=sk-...
 ```
 
-> The MCP packages (`@modelcontextprotocol/ext-apps`, `@modelcontextprotocol/sdk`) and the image
-> SDKs (`openai`, `@google/genai`) are set to `*` because they move fast. After a successful
-> install, pin them to the versions you got (`pnpm add -E <pkg>@<version>`).
+> Dependencies are pinned and `pnpm-lock.yaml` is committed, so `pnpm install` is reproducible. The
+> MCP and image SDKs move fast; if you bump them, re-run `pnpm build && pnpm test` to confirm nothing
+> shifted under you (see the SDK-shape note in [Status & validation](#status--validation)).
 
 ## Development
 
@@ -136,16 +158,20 @@ step needed for the server). Example MCP-server config:
 }
 ```
 
-Run `pnpm build` first so `dist/mcp-app.html` exists (the UI resource reads it). To test the
-viewer without a full host, use the ext-apps basic-host or the MCPJam inspector: run `pnpm start`
-here (Streamable HTTP on `:3001`) and point the host at `http://localhost:3001/mcp`.
+Replace `/ABSOLUTE/PATH/doodleworks-mcp/main.ts` with the absolute path to your clone (run `pwd` in the
+repo; on Windows use a path like `C:\path\to\doodleworks-mcp\main.ts`). Run `pnpm build` first so
+`dist/mcp-app.html` exists (the UI resource reads it) — a missing bundle makes the viewer hang on
+"Waiting for the illustrations…". To test the viewer without a full host, use the ext-apps basic-host
+or the MCPJam inspector: run `pnpm start` here (Streamable HTTP on `:3001`) and point the host at
+`http://localhost:3001/mcp`.
 
 ## The tools
 
 - `create_illustrations` — `{ title?, illustrations: [{ title, archetype?, aspect?, prompt, styleReference? }], resolution?, quality?, styleReference? }`.
   Each `prompt` is one illustration's contraption + Tinku's action + a `Required text only:` block. The
   server adds the Tinku character, the conceptual engine, and the house style automatically, so don't restate
-  them. `aspect` defaults to `16:9`; `21:9` is an optional wider hero (not a cover). `resolution` is `1k`
+  them. The `illustrations` array takes 1–8 entries (the per-set cap; one paid render each).
+  `aspect` defaults to `16:9`; `21:9` is an optional wider hero (not a cover). `resolution` is `1k`
   (default) or `2k`. `quality` is `low | medium | high | auto` (default `low`; raise it when texture matters
   — see [Render speed](#render-speed)). `styleReference` (set-wide, or per illustration) is optional — see
   [Style-reference library](#style-reference-library) below. Returns `{ setId, illustrations: [{ index, title,
@@ -287,15 +313,19 @@ inspector — with support still rolling out, so check your host's current state
 Claude Code terminal (no webview for an iframe); the skill version is the right tool there, while this App
 is for graphical hosts.
 
-## Note on validation
+## Status & validation
 
-This project was written against the official MCP Apps quickstart API (`registerAppTool` /
-`registerAppResource` / `RESOURCE_MIME_TYPE`, the `App` bridge with `ontoolresult` / `callServerTool`).
-It was not built or run in the environment it was authored in (no network for `pnpm install`), so run
-`pnpm install && pnpm build` to type-check it on your machine. Two things to watch on first build: tool
-`inputSchema` is given as a Zod shape (matching the quickstart); if your installed SDK expects raw JSON
-Schema, that's a small adjustment. And confirm the `openai` / `@google/genai` image calls against the
-versions you install.
+`pnpm install && pnpm build && pnpm test` runs green: the build type-checks the server and viewer,
+passes the Tinku sync check, and bundles `dist/mcp-app.html`; the offline test suite (no API calls)
+passes. CI re-runs build + test on Node 18, 20, and 22 on every push and PR, using pnpm 10.34.3 (the
+latest pnpm line that still supports Node 18 — pinned via `packageManager`).
+
+What the tests don't cover, since they never hit the paid image API: the live `openai` / `@google/genai`
+image calls themselves. The project targets the official MCP Apps quickstart API (`registerAppTool` /
+`registerAppResource` / `RESOURCE_MIME_TYPE`, the `App` bridge with `ontoolresult` / `callServerTool`),
+and tool `inputSchema` is given as a Zod shape (matching the quickstart). If you bump the MCP SDK and it
+expects raw JSON Schema instead, that's a small adjustment — do a live render once after any SDK upgrade
+to confirm the provider calls still line up.
 
 ## Files
 
