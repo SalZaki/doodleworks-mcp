@@ -34,11 +34,13 @@ import {
   type Resolution,
 } from "./engine.js";
 import {
+  META_CONTRACT_KEY,
   META_ILLUSTRATION_KEY,
   META_SET_KEY,
   TOOL_CREATE_ILLUSTRATIONS,
   TOOL_GET_ILLUSTRATION,
   TOOL_REGENERATE_ILLUSTRATION,
+  VIEWER_CONTRACT_VERSION,
   type Aspect,
   type Illustration,
 } from "./types.js";
@@ -309,6 +311,8 @@ export function createServer(deps: { renderPage?: RenderPageFn } = {}): McpServe
         // View-only metadata. No image bytes — the View pulls each rendered illustration via
         // get_illustration so a single result stays well under the MCP size cap.
         _meta: {
+          // Stamped so the viewer can detect a stale bundle precisely (see VIEWER_CONTRACT_VERSION).
+          [META_CONTRACT_KEY]: { version: VIEWER_CONTRACT_VERSION },
           [META_SET_KEY]: {
             setId,
             title,
@@ -605,7 +609,13 @@ export function createServer(deps: { renderPage?: RenderPageFn } = {}): McpServe
 let cachedViewerHtml: { mtimeMs: number; html: Promise<string> } | undefined;
 async function loadViewerHtml(): Promise<string> {
   const file = path.join(DIST_DIR, "mcp-app.html");
-  const { mtimeMs } = await fs.stat(file);
+  const stat = await fs.stat(file).catch(() => undefined);
+  if (!stat) {
+    throw new Error(
+      `Viewer bundle not found at ${file}. Run \`pnpm run build\` to create it, then restart the host.`,
+    );
+  }
+  const { mtimeMs } = stat;
   if (!cachedViewerHtml || cachedViewerHtml.mtimeMs !== mtimeMs) {
     const html = fs.readFile(file, "utf-8").catch((err) => {
       cachedViewerHtml = undefined; // don't pin a rejected read — let the next request retry

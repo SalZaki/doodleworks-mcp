@@ -6,10 +6,12 @@ import {
   type McpUiHostContext,
 } from "@modelcontextprotocol/ext-apps";
 import {
+  META_CONTRACT_KEY,
   META_ILLUSTRATION_KEY,
   META_SET_KEY,
   TOOL_GET_ILLUSTRATION,
   TOOL_REGENERATE_ILLUSTRATION,
+  VIEWER_CONTRACT_VERSION,
   type Illustration,
   type IllustrationSet,
 } from "../types.js";
@@ -626,7 +628,24 @@ const app = new App({ name: "Doodleworks MCP", version: "1.0.0" });
 
 // Receive the create_illustrations result. Set before connect() so the initial result isn't missed.
 app.ontoolresult = (result) => {
-  const payload = (result._meta as Record<string, unknown> | undefined)?.[META_SET_KEY] as IllustrationSet | undefined;
+  const meta = result._meta as Record<string, unknown> | undefined;
+  // Precise stale-bundle detection: the server stamps the wire-contract version it speaks; this
+  // viewer was built against VIEWER_CONTRACT_VERSION. If they differ, the host is serving an old
+  // dist/mcp-app.html — say so exactly, instead of the generic "no usable set" message below.
+  const serverContract = (meta?.[META_CONTRACT_KEY] as { version?: number } | undefined)?.version;
+  if (typeof serverContract === "number" && serverContract !== VIEWER_CONTRACT_VERSION) {
+    console.warn(
+      `[doodleworks] viewer/server contract mismatch: this viewer was built for v${VIEWER_CONTRACT_VERSION}, ` +
+        `the server speaks v${serverContract} — stale viewer bundle.`,
+    );
+    emptyEl.textContent =
+      `This viewer (data format v${VIEWER_CONTRACT_VERSION}) is out of date — the server speaks v${serverContract}. ` +
+      "Rebuild the app (pnpm run build) and restart the host.";
+    emptyEl.hidden = false;
+    frameEl.hidden = true;
+    return;
+  }
+  const payload = meta?.[META_SET_KEY] as IllustrationSet | undefined;
   if (!payload?.illustrations?.length || !payload.setId) {
     // A tool result reached the viewer but carried no usable `doodleworks/set`. The common cause is a
     // server/viewer version skew: the host serves a stale `dist/mcp-app.html` (Claude Desktop runs the
