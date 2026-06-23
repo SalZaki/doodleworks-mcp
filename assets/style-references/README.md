@@ -72,6 +72,22 @@ below. `examples/net-ai-stack.json` is a title-free `create_illustrations` paylo
 | `wiki-04-outputs-add-up` | Outputs accumulate over time |
 | `wiki-05-health-checks` | Periodic health checks |
 
+### `glp-*` — tirzepatide / Mounjaro, a GLP‑1 medication (a 9-part patient explainer)
+
+| Id | The idea it illustrates |
+| --- | --- |
+| `glp-00-at-a-glance` | What it is: a once-weekly injection for type‑2 diabetes and weight loss |
+| `glp-01-what-it-is` | A GLP‑1/GIP agonist — activates two gut hormones |
+| `glp-02-how-it-works-for-weight-loss` | Reduces appetite; feel fuller, eat less |
+| `glp-03-how-it-works-for-type-2-diabetes` | Lowers blood sugar; more insulin when needed |
+| `glp-04-how-to-use-it` | Keep it in the fridge; once a week, rotate the injection site |
+| `glp-05-missed-a-dose` | ≤4 days, inject now; more, skip it — never two at once |
+| `glp-06-common-side-effects` | Nausea, gut upset, tiredness, injection-site redness |
+| `glp-07-serious-side-effects` | The warning signs that mean get help |
+| `glp-08-who-should-take-care` | Pregnancy, allergies, pancreatitis, alcohol — ask a doctor first |
+
+> *Illustrative examples of the drawing style — not medical advice.*
+
 > **Note on the captions you see in these PNGs.** Some references (the `net-*` set) have a title
 > caption rendered into the image; the `nrt-*` and `wiki-*` sets do not. These captions were added
 > when the examples were authored — the engine itself does **not** draw a title onto a render
