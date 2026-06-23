@@ -15,6 +15,18 @@ export const META_SET_KEY = "doodleworks/set" as const;
 export const META_ILLUSTRATION_KEY = "doodleworks/illustration" as const;
 
 /**
+ * Wire-contract version for the `_meta` payloads above. **Bump this whenever the shape of the
+ * `META_SET_KEY` / `META_ILLUSTRATION_KEY` payloads changes** in a way the viewer must understand.
+ *
+ * The server stamps it on every `create_illustrations` result (under `META_CONTRACT_KEY`); the
+ * viewer compares it to the value baked into its bundle at build time. A mismatch means the host is
+ * serving a stale `dist/mcp-app.html` (built against an older contract), so the viewer says exactly
+ * that — "run `pnpm run build`" — instead of failing with a generic error or hanging.
+ */
+export const VIEWER_CONTRACT_VERSION = 1 as const;
+export const META_CONTRACT_KEY = "doodleworks/contract" as const;
+
+/**
  * MCP tool names. The single source of truth shared by server.ts (which registers them) and the
  * viewer (which invokes get_illustration / regenerate_illustration via callServerTool). Hoisted so
  * the name the viewer calls can't drift from the name the server registers — a mismatch makes the

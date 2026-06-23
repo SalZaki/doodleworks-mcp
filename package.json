@@ -33,7 +33,8 @@
     "start": "concurrently --raw \"cross-env NODE_ENV=development INPUT=mcp-app.html vite build --watch\" \"tsx watch main.ts\"",
     "serve:stdio": "tsx main.ts --stdio",
     "typecheck:test": "tsc -p tsconfig.test.json",
-    "test": "pnpm run typecheck:test && node --import tsx --test test/*.test.ts"
+    "test": "pnpm run typecheck:test && node --import tsx --test test/*.test.ts",
+    "prepare": "pnpm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/ext-apps": "^1.7.4",
