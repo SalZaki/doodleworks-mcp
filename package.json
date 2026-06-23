@@ -3,7 +3,30 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Personal MCP App: hand-drawn technical slide decks rendered inline in an MCP host, bring-your-own image API key.",
+  "description": "Personal MCP App: single-idea, hand-drawn \"Tinku\" line illustrations rendered inline in an MCP host; bring-your-own image API key (OpenAI/Gemini).",
+  "license": "MIT",
+  "author": "Salahuddin Zaki <salzaki@hotmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SalZaki/doodleworks-mcp.git"
+  },
+  "homepage": "https://github.com/SalZaki/doodleworks-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/SalZaki/doodleworks-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-apps",
+    "illustration",
+    "image-generation",
+    "openai",
+    "gemini"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@11.0.9",
   "scripts": {
     "check:tinku": "node scripts/check-tinku-sync.mjs",
     "build": "pnpm run check:tinku && tsc --noEmit && tsc -p tsconfig.server.json && cross-env INPUT=mcp-app.html vite build",
@@ -13,10 +36,10 @@
     "test": "pnpm run typecheck:test && node --import tsx --test 'test/**/*.test.ts'"
   },
   "dependencies": {
-    "@modelcontextprotocol/ext-apps": "*",
-    "@modelcontextprotocol/sdk": "*",
-    "@google/genai": "*",
-    "openai": "*",
+    "@modelcontextprotocol/ext-apps": "^1.7.4",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@google/genai": "^2.8.0",
+    "openai": "^6.42.0",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "zod": "^3.23.8"

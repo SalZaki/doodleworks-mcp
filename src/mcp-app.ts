@@ -129,7 +129,9 @@ function humanizeError(msg: string): string {
     m.includes("resource_exhausted") ||
     m.includes("resource has been exhausted") ||
     m.includes("too many requests") ||
-    m.includes("429")
+    // Digit-delimited so an unrelated "429" inside a model id, request id, or pixel
+    // dimension can't masquerade as a rate-limit and loop the user on a permanent error.
+    /(?<![0-9])429(?![0-9])/.test(m)
   ) {
     return "The image API is rate-limited — try Regenerate again in a moment.";
   }
@@ -572,54 +574,50 @@ function loadImage(src: string): Promise<HTMLImageElement> {
     img.src = src;
   });
 }
-function roundRectPath(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.arcTo(x + w, y, x + w, y + h, r);
-  ctx.arcTo(x + w, y + h, x, y + h, r);
-  ctx.arcTo(x, y + h, x, y, r);
-  ctx.arcTo(x, y, x + w, y, r);
-  ctx.closePath();
-}
 async function withTitle(dataUri: string, title: string): Promise<string> {
   try {
     const img = await loadImage(dataUri);
     const w = img.naturalWidth;
     const h = img.naturalHeight;
+    if (!w || !h) return dataUri;
+
+    // The title goes in a dedicated caption band BELOW the artwork — never overlapping it —
+    // in the same sans-serif family the in-viewer caption uses, so a saved PNG reads
+    // consistently and the illustration itself is never covered.
+    const fontSize = Math.max(16, Math.round(h * 0.04));
+    const bandH = Math.round(fontSize * 2.4);
     const canvas = document.createElement("canvas");
     canvas.width = w;
-    canvas.height = h;
+    canvas.height = h + bandH;
     const ctx = canvas.getContext("2d");
-    if (!ctx || !w || !h) return dataUri;
-    ctx.drawImage(img, 0, 0);
+    if (!ctx) return dataUri;
 
-    const fontSize = Math.max(16, Math.round(h * 0.04));
+    // Pure-white canvas (matches the house background), artwork on top, title in the band below.
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, w, h + bandH);
+    ctx.drawImage(img, 0, 0);
+    // Hairline rule separating the artwork from the caption band.
+    ctx.strokeStyle = "rgba(0,0,0,0.08)";
+    ctx.lineWidth = Math.max(1, Math.round(h * 0.0025));
+    ctx.beginPath();
+    ctx.moveTo(0, h + 0.5);
+    ctx.lineTo(w, h + 0.5);
+    ctx.stroke();
+
     ctx.font = `600 ${fontSize}px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    const padX = fontSize * 0.9;
-    const padY = fontSize * 0.55;
-    const maxText = w * 0.9 - padX * 2;
+    ctx.fillStyle = "#1a1a1a";
+    const maxText = w * 0.9;
     let text = title;
     if (ctx.measureText(text).width > maxText) {
       while (text.length > 1 && ctx.measureText(`${text}…`).width > maxText) text = text.slice(0, -1);
       text = `${text.replace(/\s+$/, "")}…`;
     }
-    const pillW = ctx.measureText(text).width + padX * 2;
-    const pillH = fontSize + padY * 2;
-    const x = (w - pillW) / 2;
-    const y = h - pillH - Math.round(h * 0.03);
-    roundRectPath(ctx, x, y, pillW, pillH, pillH / 2);
-    ctx.fillStyle = "rgba(255,255,255,0.86)";
-    ctx.fill();
-    ctx.lineWidth = Math.max(1, fontSize * 0.05);
-    ctx.strokeStyle = "rgba(0,0,0,0.12)";
-    ctx.stroke();
-    ctx.fillStyle = "#1a1a1a";
-    ctx.fillText(text, w / 2, y + pillH / 2 + fontSize * 0.04);
+    ctx.fillText(text, w / 2, h + bandH / 2);
     return canvas.toDataURL("image/png");
   } catch {
-    return dataUri; // never block a download on the title overlay
+    return dataUri; // never block a download on the title caption
   }
 }
 

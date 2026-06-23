@@ -9,13 +9,13 @@ importers:
   .:
     dependencies:
       '@google/genai':
-        specifier: '*'
+        specifier: ^2.8.0
         version: 2.8.0(@modelcontextprotocol/sdk@1.29.0(zod@3.25.76))
       '@modelcontextprotocol/ext-apps':
-        specifier: '*'
+        specifier: ^1.7.4
         version: 1.7.4(@modelcontextprotocol/sdk@1.29.0(zod@3.25.76))(zod@3.25.76)
       '@modelcontextprotocol/sdk':
-        specifier: '*'
+        specifier: ^1.29.0
         version: 1.29.0(zod@3.25.76)
       cors:
         specifier: ^2.8.5
@@ -24,7 +24,7 @@ importers:
         specifier: ^4.19.2
         version: 4.22.2
       openai:
-        specifier: '*'
+        specifier: ^6.42.0
         version: 6.42.0(ws@8.21.0)(zod@3.25.76)
       zod:
         specifier: ^3.23.8

@@ -249,7 +249,14 @@ export function createServer(deps: { renderPage?: RenderPageFn } = {}): McpServe
         "the house style. Use this when the user wants hand-drawn illustrations for an article, post, or explainer.",
       inputSchema: {
         title: z.string().optional().describe("A title for the set."),
-        illustrations: z.array(illustrationSchema).min(1).describe("Illustrations in order; each is 16:9 by default. An optional 21:9 hero may go first."),
+        illustrations: z
+          .array(illustrationSchema)
+          .min(1)
+          // Cap the set so a single call (a buggy host, a typo, or a prompt-injected host
+          // model) cannot enqueue an unbounded number of paid image renders against the
+          // user's own API key. 8 matches the README's 4-8 guidance.
+          .max(8, "At most 8 illustrations per set.")
+          .describe("Illustrations in order (1-8); each is 16:9 by default. An optional 21:9 hero may go first."),
         resolution: resolutionSchema.optional().describe("Size tier (default 1k; 2k is heavier for inline display)."),
         quality: qualitySchema.optional(),
         styleReference: styleReferenceField,

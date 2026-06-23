@@ -1,0 +1,66 @@
+{
+  "title": "The .NET AI Stack",
+  "resolution": "1k",
+  "illustrations": [
+    {
+      "title": "The .NET AI Stack",
+      "archetype": "structure",
+      "aspect": "16:9",
+      "prompt": "A tall two-tier cabinet-machine. The lower tier is a solid, sturdy foundation crate; the upper tier is a glass-fronted little workshop where a few small robots collaborate around a table. A bold short pipe joins the two tiers. Tinku stands at the side working a lever that links the lower crate to the upper workshop, glancing up at the robots. Required text only (render exactly, and NO other text anywhere in the image): on the upper tier \"Microsoft.Agents.AI\" and below it \"agents + orchestration\"; on the lower tier \"Microsoft.Extensions.AI\" and below it \"basic chat + tools\". Do not add any other words, captions, labels, watermarks, or UI text."
+    },
+    {
+      "title": "2023: The Painful Beginning",
+      "archetype": "process",
+      "aspect": "16:9",
+      "prompt": "A monstrous wall of hand-cut gears — hundreds of mismatched cogs, sputtering pipes, and tiny dials crammed together — that does very little useful work. A funnel feeds raw input in at one end; two prominent dials sit on a front panel; only a thin, useless trickle dribbles out the far end into a small cup. Tinku heaves on a giant crank with both mitten-hands, sweating hard, eyes squeezed shut. Required text only (render exactly, and NO other text anywhere in the image): a label on the intake funnel \"HttpClient()\"; one tiny tag on the gear wall \"2023\"; a small note over the gears \"~200 LINES\"; a note by the trickle \"mostly novel, not useful\"; the two dials labelled \"temperature\" and \"tokens\". Do not add any other words, captions, labels, watermarks, or UI text."
+    },
+    {
+      "title": "The Semantic Kernel Years",
+      "archetype": "structure",
+      "aspect": "16:9",
+      "prompt": "A boxy domestic appliance with four neatly labelled slide-out trays stacked on its front. A tangle of messy plumbing on the left leaks and feeds into its side. Tinku lounges back in a little deck chair beside it, mitten-hands behind his head, watching the appliance run itself. Required text only (render exactly, and NO other text anywhere in the image): a nameplate on the appliance \"Semantic Kernel\"; the four trays labelled \"model\", \"provider\", \"chat history\", \"search\". Do not add any other words, captions, labels, watermarks, or UI text."
+    },
+    {
+      "title": "The Foundations Crack",
+      "archetype": "state",
+      "aspect": "16:9",
+      "prompt": "A heavy boiler-like foundation block with a visible crack splitting its base. Too many extra modules and boxes have been bolted haphazardly all over it, making it bulge and sprawl lopsidedly, bristling with antennae and pipes. Tinku stands small at the cracked base holding a single wrench, a worried bead of sweat on his brow as he looks up at the overgrown mass. Required text only (render exactly, and NO other text anywhere in the image): three small tags on bolted-on modules \"agents\", \"deep thinking\", \"workflows\"; one note across the sprawl \"FEATURE SPRAWL\". Do not add any other words, captions, labels, watermarks, or UI text."
+    },
+    {
+      "title": "Two Layers",
+      "archetype": "structure",
+      "aspect": "16:9",
+      "prompt": "Two machine boxes stacked vertically. The top box is a glass workshop with a few small robots collaborating around a table; the bottom box is a solid geared engine block stamped with a wrench emblem. A single bold arrow points down from the top box into the foundation below. Tinku stands to the side and points up at the stack with a long pointer stick. Required text only (render exactly, and NO other text anywhere in the image): on the top box \"Microsoft.Agents.AI\", \"Agent Framework\", \"agents + orchestration\"; on the bottom box \"Microsoft.Extensions.AI\", \"basic chat + tools\", \"FOUNDATION\". Do not add any other words, captions, labels, watermarks, or UI text."
+    },
+    {
+      "title": "One Foundation, Many Interfaces",
+      "archetype": "structure",
+      "aspect": "16:9",
+      "prompt": "A single sturdy socket-panel box, like a power strip, with three clearly different labelled sockets cut into its face — one round, one square, one hexagonal. Tinku holds a bundle of matching plugs in his mitten-hands and pushes one firmly into its socket, bracing a foot against the box. Required text only (render exactly, and NO other text anywhere in the image): the three sockets labelled \"IChatClient\", \"IImageGenerator\", \"IEmbeddingGenerator\". Do not add any other words, captions, labels, watermarks, or UI text."
+    },
+    {
+      "title": "Swap Providers, Keep Your Code",
+      "archetype": "process",
+      "aspect": "16:9",
+      "prompt": "A fixed junction box bolted to a bench, with one cable running off the edge of the scene. In front of it, two destinations sit on a small see-saw plank: a fluffy cloud on one side and a little house on the other. Tinku unplugs a single connector from the cloud and reaches to plug it into the house, while the junction box stays exactly where it is. Required text only (render exactly, and NO other text anywhere in the image): a label on the junction box \"IChatClient\"; a note on the off-stage cable \"rest of code unchanged\"; the cloud labelled \"Azure OpenAI\"; the house labelled \"Ollama (local)\"; one small note near the swapped plug \"swap providers\". Do not add any other words, captions, labels, watermarks, or UI text."
+    },
+    {
+      "title": "Agents With Tools",
+      "archetype": "structure",
+      "aspect": "16:9",
+      "prompt": "A big, friendly boxy robot stands beside a pegboard hung with four distinct tools (a spanner, a magnifying glass, a plug, a small drawer). A thought-bubble above the robot shows the tools it is considering. Tinku reaches up to hand the robot a tool taken off the pegboard. Required text only (render exactly, and NO other text anywhere in the image): a nameplate on the robot \"AIAgent\"; the four pegboard tools labelled \"C# tools\", \"web lookup\", \"MCP server\", \"AgentSession memory\". Do not add any other words, captions, labels, watermarks, or UI text."
+    },
+    {
+      "title": "Clean, Typed Results",
+      "archetype": "process",
+      "aspect": "16:9",
+      "prompt": "A factory press straddling a conveyor belt. A messy tangled wad of paper rides in from the left, passes through a stamping press in the middle, and comes out the right as crisp, identical stacked cards each ruled into neat fields. Tinku hauls down on the press lever with both mitten-hands. Required text only (render exactly, and NO other text anywhere in the image): a note by the incoming wad \"messy text in\"; a stamp on the press \"RunAsync<BookInfo>\"; a note by the output \"typed result out\"; the output card fields \"Title\", \"Author\", \"Pages\". Do not add any other words, captions, labels, watermarks, or UI text."
+    },
+    {
+      "title": "Start Here, Grow Anytime",
+      "archetype": "progression",
+      "aspect": "16:9",
+      "prompt": "Along one ground line: a tiny simple cabin on the left, a mid-size house under construction wrapped in scaffolding in the centre with a dashed outline of a future tower sketched above it, and a tall finished building on the right. Tinku stands on the scaffolding of the middle house, hammering happily. Required text only (render exactly, and NO other text anywhere in the image): a tag by the cabin \"Simple today\"; a note on the scaffolded house \"START IN AGENT FRAMEWORK\"; a note by the dashed outline \"future-proof\"; a tag by the tall building \"Complex tomorrow\". Do not add any other words, captions, labels, watermarks, or UI text."
+    }
+  ]
+}
