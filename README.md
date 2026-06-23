@@ -317,8 +317,8 @@ is for graphical hosts.
 
 `pnpm install && pnpm build && pnpm test` runs green: the build type-checks the server and viewer,
 passes the Tinku sync check, and bundles `dist/mcp-app.html`; the offline test suite (no API calls)
-passes. CI re-runs build + test on Node 18, 20, and 22 on every push and PR. Last validated locally on
-Node 26 with pnpm 11.
+passes. CI re-runs build + test on Node 18, 20, and 22 on every push and PR, using pnpm 10.34.3 (the
+latest pnpm line that still supports Node 18 — pinned via `packageManager`).
 
 What the tests don't cover, since they never hit the paid image API: the live `openai` / `@google/genai`
 image calls themselves. The project targets the official MCP Apps quickstart API (`registerAppTool` /
