@@ -29,7 +29,7 @@ Doodleworks turns one idea into a **clean line illustration**: a single picture 
 Ask your AI host for a set of illustrations, and Doodleworks renders them and opens an **interactive viewer** in the chat: flip through, regenerate any image you don't like, and download the PNGs.
 
 <div align="center">
-<img src="assets/claude_desktop_1.png" width="660" alt="The Doodleworks viewer running in Claude Desktop: a rendered set with prev/next, zoom, regenerate, download, and a thumbnail strip." />
+<img src="assets/claude-desktop-viewer.png" width="660" alt="The Doodleworks viewer running in Claude Desktop: a rendered set with prev/next, zoom, regenerate, download, and a thumbnail strip." />
 <br/><sub>The interactive viewer in Claude Desktop — browse the set, regenerate any image, and download PNGs (with an optional title burned in).</sub>
 </div>
 
@@ -205,8 +205,6 @@ Open **Settings → Developer → Edit Config** (or edit `~/Library/Application 
 
 Save, then **fully quit and relaunch** Claude Desktop (Cmd+Q — not just closing the window), and the viewer renders inline in the chat. (If an older build shows only a text fallback instead of the gallery, update Claude Desktop — and make sure you ran `pnpm build` so `dist/mcp-app.html` exists.)
 
-<img src="assets/claude_desktop_2.png" width="520" alt="Zooming into an illustration in the Claude Desktop viewer." />
-
 </details>
 
 <details id="claude-code-terminal">
@@ -281,6 +279,22 @@ In a graphical host (Cursor, VS Code, Claude Desktop, Goose) the **viewer opens*
 - **`get_illustration`** streams each rendered image into the viewer (app-only; the model never sees it).
 
 See [`examples/`](examples/) for ready-to-run payloads (`net-ai-stack.json`, `keep-cool-in-hot-weather.json`, `tinku-contraptions.json`). The planning docs ship as `doc://doodleworks/*` resources, so any host has them without a separate skill.
+
+## The viewer
+
+Once a set renders, the viewer opens right in the chat — and it's fully interactive:
+
+- **Browse** — step through with prev/next or the thumbnail strip; the optional 21:9 hero leads, the 16:9 tips follow.
+- **Streams as it renders** — each illustration appears the moment it finishes, so you're never blocked waiting on the whole set.
+- **Zoom** — click any illustration to enlarge it.
+- **Regenerate** — image models are non-deterministic, so one click re-rolls a single illustration in place (no need to redo the whole set).
+- **Download** — save one PNG or the whole set; tick **Title on PNG** to burn the title into a clean caption band below the artwork.
+- **Matches your host** — it adopts the host's light/dark theme and fonts.
+
+<div align="center">
+<img src="assets/claude-desktop-zoom.png" width="560" alt="Zooming into a single illustration in the viewer." />
+<br/><sub>Zoom view — click any illustration to enlarge it.</sub>
+</div>
 
 ## Configuration
 
