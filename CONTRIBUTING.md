@@ -49,9 +49,26 @@ source of truth) and paste it verbatim into the `> Tinku is …` blockquote in
 2. Keep changes focused; update the README/docs and `CHANGELOG.md` when behaviour
    changes.
 3. **`pnpm build` and `pnpm test` must pass** before you open the PR — CI runs
-   both on Node 18, 20, and 22.
+   both on Node 22 and 24, and both are required status checks on `main`.
 4. Match the surrounding code style (the codebase favours explicit types, errors
    to stderr only, and comments that explain *why*).
+
+## Conventional commits & releases
+
+Commits and **pull-request titles** follow [Conventional Commits](https://www.conventionalcommits.org/).
+Because PRs are **squash-merged**, the PR title becomes the commit subject — and
+that subject drives both the changelog and the next version number. A
+`pr-title-lint` check enforces this on every PR.
+
+Allowed types: `feat`, `fix`, `perf`, `docs`, `chore`, `ci`, `build`, `test`,
+`refactor`, `style`, `revert`. `feat:` triggers a minor bump, `fix:`/`perf:` a
+patch; add `!` (e.g. `feat!:`) or a `BREAKING CHANGE:` footer for a major bump.
+
+Releases are automated by [release-please](https://github.com/googleapis/release-please).
+As typed commits land on `main`, release-please opens a **"Release PR"** that
+bumps the version and updates `CHANGELOG.md`. Merging that PR cuts the release:
+it tags `vX.Y.Z` and publishes a GitHub Release. Maintainers: see
+[`docs/RELEASING.md`](docs/RELEASING.md).
 
 By contributing, you agree that your contributions are licensed under the
 project's [MIT License](LICENSE).
