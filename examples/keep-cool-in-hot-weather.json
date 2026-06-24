@@ -1,0 +1,54 @@
+{
+  "title": "7 Smart Ways to Keep Cool in Hot Weather",
+  "styleReference": "wiki-00-less-code-more-knowledge",
+  "illustrations": [
+    {
+      "title": "Hero — UK Heatwave Cooling Guide",
+      "archetype": "summary",
+      "aspect": "21:9",
+      "prompt": "A tall outdoor wall thermometer contraption mounted on the brick wall of a British terraced house, its mercury column climbing high past a bold '40°C' marking near the top, with a fierce sun blazing in one corner and wavy heat lines rising off the rooftops. In the foreground Tinku stands calm and composed, holding a tall glass of iced water in one hand and a small hand-held fan in the other, a faint cool breeze swirl around its head, unbothered while everything behind bakes. A small round dial gauge beside the thermometer points to a '20×' label. Required text only: '7 SMART WAYS TO KEEP COOL', '40°C', '20x MORE LIKELY THAN THE 1960s'"
+    },
+    {
+      "title": "1 — Keep Windows Closed",
+      "archetype": "decision",
+      "aspect": "16:9",
+      "prompt": "A cross-section of a British house window contraption: thick curtains drawn shut and the window latched closed during bright daytime, with wavy orange heat lines pressing against the glass from outside but blocked from entering, while the room behind stays shaded and cool. Tinku reaches up and pulls the curtain closed, glancing at a blazing sun outside. A small inset panel shows the same window thrown open at night under a calm crescent moon. Required text only: '1 KEEP WINDOWS CLOSED', 'DAY — SHUT OUT THE HEAT', 'NIGHT — LET IT IN'"
+    },
+    {
+      "title": "2 — Hot Drinks Cool You Down",
+      "archetype": "process",
+      "aspect": "16:9",
+      "prompt": "Tinku sits sipping from a tall steaming mug, eyes content, while tiny sweat droplets lift off its skin and turn into little rising arrows that carry heat away, a gentle breeze swirl passing by. A small body-temperature gauge beside Tinku ticks downward as the steam curls upward. Required text only: '2 HOT DRINKS COOL YOU DOWN', 'SWEAT', 'EVAPORATION CARRIES HEAT AWAY'"
+    },
+    {
+      "title": "3 — Light Cotton Pyjamas Win",
+      "archetype": "decision",
+      "aspect": "16:9",
+      "prompt": "A neat bed contraption shown as two side-by-side choices: on one side bare skin tangled under heavy sticky sheets with frustrated heat squiggles, on the other side a set of light cotton pyjamas laid out crisp and breathable with cool airflow arrows passing through. Tinku lies comfortably on the cotton-pyjama side, relaxed, a small humidity dial nearby pointing to 'HUMID'. Required text only: '3 LIGHT COTTON PYJAMAS WIN', 'STICKY & BARE', 'BREATHABLE COTTON'"
+    },
+    {
+      "title": "4 — Freeze Your Pillow",
+      "archetype": "process",
+      "aspect": "16:9",
+      "prompt": "An open freezer-drawer contraption rimmed with frost and tiny snowflakes, holding a folded pillowcase and a pair of pyjamas chilling inside, with a small countdown timer on the door reading '20 MIN'. Tinku tucks the pillowcase into the freezer, a little curl of cold air drifting out. Required text only: '4 FREEZE YOUR PILLOW', '20 MIN BEFORE BED', 'INSTANT COOLING HIT'"
+    },
+    {
+      "title": "5 — Cool Your Pulse Points",
+      "archetype": "taxonomy",
+      "aspect": "16:9",
+      "prompt": "A running cold-water tap contraption with a clear stream, and a simple standing body outline beside it marked with three glowing pulse-point dots at the wrist, neck and ankle. Tinku holds its wrist under the cold stream, refreshed, cool droplets scattering. Required text only: '5 COOL YOUR PULSE POINTS', 'WRISTS', 'NECK', 'ANKLES'"
+    },
+    {
+      "title": "6 — DIY Air Con",
+      "archetype": "process",
+      "aspect": "16:9",
+      "prompt": "A DIY air-conditioning contraption: an electric fan with a damp towel draped over its front grille and a bowl of ice cubes set in front of it, cool wavy breeze arrows blowing outward across the room as droplets evaporate off the cloth. Tinku stands in the cool stream with arms spread wide, blissful, hair lifting in the breeze. Required text only: '6 DIY AIR CON', 'FAN + DAMP CLOTH', 'ADD A BOWL OF ICE'"
+    },
+    {
+      "title": "7 — Eat Spicy Food",
+      "archetype": "process",
+      "aspect": "16:9",
+      "prompt": "A small plate contraption holding a single bright chilli pepper with a wisp of steam curling up, beside a body-temperature thermometer whose level is dropping. Tinku takes a bite of the chilli, sweat beads forming and lifting away as little evaporating arrows, a slightly watery-eyed but pleased expression. Required text only: '7 EAT SPICY FOOD', 'CAPSAICIN', 'SWEAT EVAPORATES & COOLS'"
+    }
+  ]
+}
