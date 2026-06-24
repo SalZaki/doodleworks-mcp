@@ -24,7 +24,7 @@
     "gemini"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "packageManager": "pnpm@10.34.3",
   "scripts": {
@@ -48,7 +48,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
-    "@types/node": "^20.11.0",
+    "@types/node": "^22.0.0",
     "concurrently": "^9.1.0",
     "cross-env": "^7.0.3",
     "tsx": "^4.19.0",
