@@ -1,0 +1,21 @@
+# Enforce the branch-naming convention: <type>/<short-description>.
+# See CONTRIBUTING.md "Branching". Bypass once with `git commit --no-verify`.
+# Types mirror commitlint's @commitlint/config-conventional (commitlint.config.js).
+branch="$(git symbolic-ref --short -q HEAD || true)"
+
+# Skip when not on a branch (detached HEAD during rebase/bisect) or on an exempt branch.
+[ -z "$branch" ] && exit 0
+case "$branch" in
+  main) exit 0 ;;
+esac
+
+if printf '%s\n' "$branch" | grep -Eq '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)/[a-z0-9._-]+$'; then
+  exit 0
+fi
+
+echo "✗ Branch \"$branch\" doesn't match the naming convention <type>/<short-description>."
+echo "  Allowed types: build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test"
+echo "  Examples:      feat/hero-aspect   fix/2k-size   docs/readme-render-speed"
+echo "  Rename it:     git branch -m <type>/<short-description>"
+echo "  Bypass once:   git commit --no-verify"
+exit 1

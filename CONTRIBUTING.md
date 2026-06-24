@@ -43,6 +43,22 @@ which fails if the two drift. If you edit the character, edit `engine.ts` (the
 source of truth) and paste it verbatim into the `> Tinku is …` blockquote in
 `references/visual-dna.md`.
 
+## Branching
+
+Branch off `main` and name the branch `<type>/<short-description>`, where `<type>`
+is one of the [Conventional Commit types](#commit-messages) and the description is
+kebab-case:
+
+```
+feat/hero-aspect          fix/2k-aspect-size      docs/readme-render-speed
+refactor/extract-parser   chore/bump-deps         test/eviction-coverage
+```
+
+A husky `pre-commit` hook rejects a branch that doesn't match the pattern (`main`
+is the only exempt branch) and tells you how to fix it. Rename a mis-named branch
+with `git branch -m <type>/<short-description>`, or skip the check once with
+`git commit --no-verify`.
+
 ## Commit messages
 
 Commits follow [Conventional Commits](https://www.conventionalcommits.org):
@@ -67,11 +83,11 @@ pnpm commit             # interactive Conventional Commits prompt (git cz)
 
 ## Pull requests
 
-1. Branch from `main`.
+1. Branch from `main` using the [branch-naming convention](#branching).
 2. Keep changes focused; update the README/docs and `CHANGELOG.md` when behaviour
    changes.
 3. **`pnpm build` and `pnpm test` must pass** before you open the PR — CI runs
-   both on Node 18, 20, and 22.
+   both on Node 22 and 24.
 4. Match the surrounding code style (the codebase favours explicit types, errors
    to stderr only, and comments that explain *why*).
 
