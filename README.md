@@ -80,6 +80,7 @@ host LLM ── create_illustrations(illustrations[]) ──▶ server: renderPa
 - (optional) `DOODLEWORKS_STYLE_REF` → a default style-reference id/path (see [Style-reference library](#style-reference-library)).
 - (optional) `DOODLEWORKS_QUALITY` → default image quality `low | medium | high | auto` (default `low`; raise it when you want more texture — see [Render speed](#render-speed)).
 - (optional) `DOODLEWORKS_CONCURRENCY` → illustrations rendered in parallel (default `3`, safe for tier-1 OpenAI quotas; raise to `6+` if your tier allows).
+- (optional) `DOODLEWORKS_REQUEST_TIMEOUT_MS` → per-image request budget in milliseconds (default `120000`); a render that produces nothing within it is treated as a wedged connection and fails fast — see [Render speed](#render-speed).
 - An MCP host that renders MCP Apps UI (see [Hosts](#hosts) below).
 
 ## Setup
@@ -286,6 +287,10 @@ Tunables:
   retries 429s and honors `Retry-After`, but the burst still costs wall-clock.
 - Resolution — `1k` (default) is faster than `2k`.
 - Fewer images per set is the simplest lever.
+- `DOODLEWORKS_REQUEST_TIMEOUT_MS` (default `120000`) — per-image request budget. A render that hasn't
+  produced bytes within it is aborted and fails fast rather than pinning a render slot, so its illustration
+  shows as failed in the viewer (Retry re-renders). Raise it if a legitimately slow `2k`/`high` render on a
+  tight tier needs longer than two minutes.
 
 ## The cache + pull tradeoff (why this is the personal tier)
 
