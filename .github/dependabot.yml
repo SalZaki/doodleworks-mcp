@@ -1,0 +1,28 @@
+# Dependabot config.
+#
+# Why the explicit registry: GitHub's hosted Dependabot was resolving npm
+# packages against npm.pkg.github.com (GitHub Packages), which serves stale
+# versions (e.g. @types/cors caps at 2.8.12) and 404s public packages — so its
+# update jobs failed with ERR_PNPM_NO_MATCHING_VERSION / security_update_not_possible.
+# Pinning the public npm registry forces resolution against registry.npmjs.org.
+version: 2
+
+registries:
+  npm-public:
+    type: npm-registry
+    url: https://registry.npmjs.org
+
+updates:
+  - package-ecosystem: "npm"   # also covers pnpm
+    directory: "/"
+    registries:
+      - npm-public
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    groups:
+      all-dependencies:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "chore(deps)"
