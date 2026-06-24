@@ -1,0 +1,35 @@
+name: pr-title-lint
+
+# Validates the PR *title* against Conventional Commits. Because PRs are
+# squash-merged, the title becomes the commit subject that release-please reads,
+# so a malformed title would silently mis-compute the next version.
+# Uses pull_request_target (no checkout of PR code) so it has the token it needs
+# and works for fork PRs; the job's pass/fail is the required status check.
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            perf
+            docs
+            chore
+            ci
+            build
+            test
+            refactor
+            style
+            revert
