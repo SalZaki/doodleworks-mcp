@@ -5,8 +5,8 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
+  esbuild: ^0.28.1
   shell-quote: ^1.8.4
-  esbuild: ^0.28.0
 
 importers:
 
