@@ -7,7 +7,7 @@
 [![MCP](https://img.shields.io/badge/MCP-Model_Context_Protocol-1f6feb.svg)](https://modelcontextprotocol.io)
 [![MCP App](https://img.shields.io/badge/MCP-App_·_interactive_UI-7c3aed.svg)](https://modelcontextprotocol.io/extensions/apps/overview)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)
+![Node >= 22](https://img.shields.io/badge/node-%3E%3D22-brightgreen.svg)
 [![pnpm](https://img.shields.io/badge/maintained_with-pnpm-f69220.svg?logo=pnpm&logoColor=white)](https://pnpm.io/)
 
 [![CI](https://github.com/SalZaki/doodleworks-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/SalZaki/doodleworks-mcp/actions/workflows/ci.yml)
@@ -88,7 +88,7 @@ The .NET AI libraries explained — the painful early days, one foundation behin
 
 ## Quick start
 
-You need **Node.js 18+** and **pnpm**. No API key is needed to build or test — only to render.
+You need **Node.js 22+** and **pnpm**. No API key is needed to build or test — only to render.
 
 ```bash
 git clone https://github.com/SalZaki/doodleworks-mcp.git
@@ -340,7 +340,7 @@ Because images live only in the in-process cache, they survive only as long as t
 
 ## Status &amp; validation
 
-Personal-tier and experimental, but it works: `pnpm install && pnpm build && pnpm test` runs green (offline test suite, no API calls), and CI re-runs build + test on Node 18, 20, and 22 with pnpm 10.34.3. The live `openai` / `@google/genai` image calls aren't covered by tests — do a live render once after any SDK upgrade.
+Personal-tier and experimental, but it works: `pnpm install && pnpm build && pnpm test` runs green (offline test suite, no API calls), and CI re-runs build + test on Node 22 and 24 with pnpm 10.34.3. The live `openai` / `@google/genai` image calls aren't covered by tests — do a live render once after any SDK upgrade.
 
 ## Contributing &amp; security
 

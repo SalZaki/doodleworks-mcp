@@ -5,7 +5,7 @@ requests are welcome.
 
 ## Development setup
 
-You need **Node.js 18+** and **pnpm 9+** (the lockfile is `lockfileVersion: 9.0`;
+You need **Node.js 22+** and **pnpm 9+** (the lockfile is `lockfileVersion: 9.0`;
 `corepack enable` will pick up the version pinned in `package.json`'s
 `packageManager` field).
 
