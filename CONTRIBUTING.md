@@ -46,8 +46,9 @@ source of truth) and paste it verbatim into the `> Tinku is …` blockquote in
 ## Pull requests
 
 1. Branch from `main`.
-2. Keep changes focused; update the README/docs and `CHANGELOG.md` when behaviour
-   changes.
+2. Keep changes focused; update the README/docs when behaviour changes. Do not
+   edit `CHANGELOG.md` by hand — release-please generates it from the commit
+   history (see "Conventional commits & releases" below).
 3. **`pnpm build` and `pnpm test` must pass** before you open the PR — CI runs
    both on Node 22 and 24, and both are required status checks on `main`.
 4. Match the surrounding code style (the codebase favours explicit types, errors
