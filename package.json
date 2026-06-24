@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Personal MCP App: single-idea, hand-drawn \"Tinku\" line illustrations rendered inline in an MCP host; bring-your-own image API key (OpenAI/Gemini).",
+  "description": "Turn any idea, blog post, article, or X post into hand-drawn \"Tinku\" illustrations that explain the key concepts — an MCP App with an interactive viewer for your AI host; bring-your-own image API key (OpenAI/Gemini).",
   "license": "MIT",
   "author": "Salahuddin Zaki <salzaki@hotmail.com>",
   "repository": {
@@ -24,7 +24,7 @@
     "gemini"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "packageManager": "pnpm@10.34.3",
   "scripts": {
@@ -48,12 +48,12 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
-    "@types/node": "^20.11.0",
+    "@types/node": "^22.0.0",
     "concurrently": "^9.1.0",
     "cross-env": "^7.0.3",
     "tsx": "^4.19.0",
     "typescript": "^5.4.0",
-    "vite": "^5.4.0",
+    "vite": "^7.0.0",
     "vite-plugin-singlefile": "^2.0.0"
   }
 }
