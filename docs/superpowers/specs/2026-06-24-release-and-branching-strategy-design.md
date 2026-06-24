@@ -134,16 +134,18 @@ conventional types to friendly headings to keep the output readable.
 ## 7. Bootstrap (cutting the real v1.0.0)
 
 There is no `v1.0.0` tag today, so the first act is to make the current, CI-green `main` an
-official, tagged release — which is precisely "development done → properly tested → released":
+official, tagged release — which is precisely "development done → properly tested → released".
+**The bootstrap version is `v1.0.0`** (decided): the project is making its first *proper*
+open-source release, so the original "Initial release" plus the accumulated `[Unreleased]`
+scaffolding all belong to one clean `1.0.0`.
 
-1. Fold the current `[Unreleased]` changelog items into a dated `1.0.0` (or `1.1.0` if the
-   accumulated work since the original 1.0.0 warrants a minor bump — decided at implementation
-   time from the commit history) entry.
-2. Set `.release-please-manifest.json` to that baseline version.
-3. Tag the baseline commit and publish the corresponding GitHub Release (manually for the
-   bootstrap, or via the first `release-please` run).
+1. Fold the current `[Unreleased]` changelog items into the dated `1.0.0` entry (merging with
+   the existing "Initial release" notes), so `1.0.0` describes the full first public release.
+2. Set `.release-please-manifest.json` to `"1.0.0"`.
+3. Tag the baseline commit `v1.0.0` and publish the corresponding GitHub Release (manually for
+   the bootstrap, or via the first `release-please` run).
 4. Thereafter, `release-please` computes every subsequent version from commits after the
-   baseline tag.
+   `v1.0.0` tag (the next release will be `1.0.1` or `1.1.0` depending on commit types).
 
 ## 8. Conventional-commit / PR-title enforcement
 
@@ -158,17 +160,19 @@ Because merges are **squash-merges**, the PR title becomes the commit subject th
 
 PRs and commits created with the **default `GITHUB_TOKEN` do not trigger other workflow runs**
 (a deliberate GitHub anti-recursion rule). So the `release-please` Release PR may not run
-`ci.yml` automatically. Options, in order of preference:
+`ci.yml` automatically.
 
-- **Accept it (recommended for phase 1):** every constituent change already passed CI before
-  merging to `main`; the Release PR only edits `CHANGELOG.md` and the version. The gate is
-  intact.
+**Decision: accept it for phase 1.** Every constituent change already passed CI on both Node
+versions before merging to `main`; the Release PR only edits `CHANGELOG.md` and the version
+number, so re-running the full build/test buys nothing. The gate stays intact. This choice is
+documented in `release.yml` so the absence of a CI run on the Release PR is not surprising.
+
+Fallbacks, if this proves insufficient later:
+
 - **Run CI on it explicitly:** add the `release-please` PR's label/branch to `ci.yml` triggers
   so it re-verifies the bumped state.
 - **Use a PAT / GitHub App token** for `release-please` so its PR triggers workflows normally
-  (more setup; reconsider in phase 2 when a publish actually rides on the release).
-
-The chosen default is documented in the workflow file so the behavior is not surprising.
+  (more setup; reconsider in phase 2 when an npm publish actually rides on the release).
 
 ## 10. Phase 2 — npm / `npx` distribution (documented, not built now)
 
@@ -209,5 +213,5 @@ phase-1 design doesn't paint us into a corner.
 
 ## 13. Open questions
 
-None blocking. The minor/major decision for the bootstrap version (§7) is resolved at
-implementation time by reading the commit history since the original 1.0.0.
+None. Both prior decision points are resolved: the bootstrap version is **`v1.0.0`** (§7), and
+the Release-PR CI behavior is **accepted as-is** for phase 1 (§9).
