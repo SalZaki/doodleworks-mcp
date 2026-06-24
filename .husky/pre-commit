@@ -9,7 +9,7 @@ case "$branch" in
   main) exit 0 ;;
 esac
 
-if printf '%s\n' "$branch" | grep -Eq '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)/[a-z0-9._-]+$'; then
+if printf '%s\n' "$branch" | grep -Eq '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)/[a-z0-9]+(-[a-z0-9]+)*$'; then
   exit 0
 fi
 
