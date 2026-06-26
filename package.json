@@ -1,6 +1,6 @@
 {
   "name": "doodleworks-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "description": "Turn any idea, blog post, article, or X post into hand-drawn \"Tinku\" illustrations that explain the key concepts — an MCP App with an interactive viewer for your AI host; bring-your-own image API key (OpenAI/Gemini).",

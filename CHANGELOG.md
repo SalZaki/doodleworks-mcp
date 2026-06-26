@@ -4,6 +4,13 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1](https://github.com/SalZaki/doodleworks-mcp/compare/v1.0.0...v1.0.1) (2026-06-26)
+
+
+### Documentation
+
+* note the Actions PR-creation setting release-please needs ([#22](https://github.com/SalZaki/doodleworks-mcp/issues/22)) ([9ccc647](https://github.com/SalZaki/doodleworks-mcp/commit/9ccc6479fdb1ebc3e8e280d46a6010d5f21fbeb9))
+
 ## [1.0.0] - 2026-06-24
 
 First public open-source release.
