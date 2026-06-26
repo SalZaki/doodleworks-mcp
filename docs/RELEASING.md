@@ -19,6 +19,15 @@ releases. There are no long-lived `test`/`develop`/`release` branches.
 > `main`. As a repo admin you can merge the Release PR despite the "no checks"
 > state.
 
+## One-time repo setup
+
+release-please opens its Release PR using the built-in `GITHUB_TOKEN`, which is
+only allowed when **Settings → Actions → General → Workflow permissions → "Allow
+GitHub Actions to create and approve pull requests"** is enabled. It is off by
+default; without it the `release` job fails with _"GitHub Actions is not permitted
+to create or approve pull requests."_ It is already enabled for this repo —
+re-enable it if the `release` job ever fails with that message.
+
 ## Versioning
 
 Semantic Versioning, derived from commit types since the last `vX.Y.Z` tag:
