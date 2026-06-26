@@ -307,6 +307,7 @@ All via environment variables (set them in your host's `env` block, above). Only
 | `DOODLEWORKS_STYLE_REF` | no | — | Default style-reference id/path ([library](assets/style-references/)) |
 | `DOODLEWORKS_QUALITY` | no | `low` | `low \| medium \| high \| auto` — raise for more texture |
 | `DOODLEWORKS_CONCURRENCY` | no | `3` | Illustrations rendered in parallel (safe for OpenAI tier‑1) |
+| `DOODLEWORKS_REQUEST_TIMEOUT_MS` | no | `120000` | Per-image request timeout (ms); a stalled render fails fast instead of pinning a slot |
 | `PORT` | no | `3001` | Port for the dev Streamable HTTP server |
 
 The key is read from the **server's environment and used server-side only** — never placed in a tool result, sent to the viewer, or exposed to the iframe. Keep it in your host's `env` block or your shell, not in a committed file.

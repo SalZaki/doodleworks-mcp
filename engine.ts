@@ -61,7 +61,7 @@ export const STYLE_LOCK =
 /**
  * Compact style guard used when a style-reference image is attached: the image itself encodes
  * the linework, palette, and whitespace, so we only restate the strongest "what NOT to do"
- * guards. This is the single biggest prompt-size win for reference-conditioned renders.
+ * guards. Cuts prompt size for reference-conditioned renders.
  */
 const STYLE_LOCK_MINIMAL =
   "Match the reference's drawing style. PURE WHITE background. Solid flat fills only. " +
@@ -97,7 +97,7 @@ export const TINKU_CHARACTER =
   "one Tinku per scene, drawn small so the contraption and the whitespace dominate the frame.";
 
 /**
- * The conceptual engine — the distinctive move. Appended to every prompt so the image is
+ * The conceptual engine. Appended to every prompt so the image is
  * a contraption Tinku operates, never a literal picture of the topic. Mirrors
  * references/concept-engine.md.
  *
@@ -188,6 +188,20 @@ function extForMime(mimeType: string): string {
     if (mime === mimeType) return ext.slice(1);
   }
   return "png";
+}
+
+/**
+ * Identify an image by its magic bytes so the OpenAI return path labels the data-URI by what the
+ * model actually returned instead of assuming PNG. Unrecognized payloads fall back to image/png
+ * (the OpenAI image models return PNG by default). Exported for unit tests.
+ */
+export function sniffImageMime(base64: string): string {
+  const head = Buffer.from(base64.slice(0, 24), "base64");
+  if (head.length >= 8 && head[0] === 0x89 && head[1] === 0x50 && head[2] === 0x4e && head[3] === 0x47) return "image/png";
+  if (head.length >= 3 && head[0] === 0xff && head[1] === 0xd8 && head[2] === 0xff) return "image/jpeg";
+  if (head.length >= 12 && head.toString("ascii", 0, 4) === "RIFF" && head.toString("ascii", 8, 12) === "WEBP") return "image/webp";
+  if (head.length >= 4 && head.toString("ascii", 0, 4) === "GIF8") return "image/gif";
+  return "image/png";
 }
 
 interface ResolvedReference {
@@ -364,8 +378,8 @@ export function buildPrompt(page: PageSpec, opts: { styleConditioned?: boolean }
       ? "A single wide 16:9-style hero illustration."
       : "A single 16:9 clean line in-article illustration.";
   // With a reference image attached, the reference carries the linework/palette/whitespace,
-  // so emit the compact lock instead of the full one — biggest single prompt-size lever, and
-  // the reference is the higher-fidelity signal anyway.
+  // so emit the compact lock instead of the full one — the reference is the higher-fidelity
+  // signal anyway.
   const styleLock = opts.styleConditioned ? STYLE_LOCK_MINIMAL : STYLE_LOCK;
   const parts = [role, page.prompt.trim(), TINKU_CHARACTER, CONCEPT_ENGINE, styleLock, TEXT_POLICY];
   if (opts.styleConditioned) parts.push(STYLE_REFERENCE_CONDITIONING);
@@ -437,6 +451,60 @@ async function withRetries<T>(fn: () => Promise<T>, tries = 3, baseDelayMs = 200
   throw last;
 }
 
+/**
+ * Per-attempt request budget for an image-API call, overridable via DOODLEWORKS_REQUEST_TIMEOUT_MS.
+ * A render that hasn't produced bytes within this window is almost always a wedged connection, not
+ * slow generation — abort it and let withRetries try again rather than pinning a render slot forever.
+ */
+const DEFAULT_REQUEST_TIMEOUT_MS = 120_000;
+function readRequestTimeoutMs(): number {
+  const raw = process.env.DOODLEWORKS_REQUEST_TIMEOUT_MS;
+  if (raw === undefined || raw === "") return DEFAULT_REQUEST_TIMEOUT_MS;
+  const n = Number(raw);
+  return Number.isFinite(n) && n > 0 ? n : DEFAULT_REQUEST_TIMEOUT_MS;
+}
+const REQUEST_TIMEOUT_MS = readRequestTimeoutMs();
+
+/**
+ * A timed-out image request. status 408 keeps isRetryable() false: a request that produced nothing
+ * within the deadline is almost always a wedged connection, not a transient blip, so retrying it
+ * just pays another full window and — with bounded render concurrency — starves the rest of the set.
+ */
+function timeoutError(ms: number): Error {
+  return Object.assign(new Error(`Image request timed out after ${ms}ms.`), { status: 408 });
+}
+
+/**
+ * Race a single provider attempt against a deadline. On timeout, abort the AbortSignal handed to fn
+ * — that cancels the client-side request for both providers (OpenAI tears the socket down; the Gemini
+ * fetch is aborted too, though Gemini keeps running and billing the generation server-side) — and
+ * surface one non-retryable timeout so withRetries fails fast instead of paying another full window.
+ * A normal rejection from fn (429/5xx/network) passes through unchanged and stays retryable.
+ * Exported for unit tests.
+ */
+export async function withTimeout<T>(ms: number, fn: (signal: AbortSignal) => Promise<T>): Promise<T> {
+  const controller = new AbortController();
+  let timedOut = false;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const deadline = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => {
+      timedOut = true;
+      controller.abort();
+      reject(timeoutError(ms));
+    }, ms);
+  });
+  try {
+    return await Promise.race([fn(controller.signal), deadline]);
+  } catch (err) {
+    // Aborting makes the SDK reject with its own AbortError, which can win the race over our deadline
+    // rejection — normalize either outcome into the one non-retryable timeout error.
+    if (timedOut) throw timeoutError(ms);
+    throw err;
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
+
 async function generateOpenAI(
   fullPrompt: string,
   size: [number, number],
@@ -444,30 +512,41 @@ async function generateOpenAI(
   reference: ResolvedReference | null,
   quality: Quality,
 ): Promise<RenderedImage> {
-  const client = new OpenAI(); // reads OPENAI_API_KEY
+  // maxRetries: 0 — withRetries owns the retry policy; the SDK's own retries would multiply attempts.
+  const client = new OpenAI({ maxRetries: 0 }); // reads OPENAI_API_KEY
   const [w, h] = size;
   return withRetries(async () => {
-    // With a reference we condition via images.edit (reference as the input image); without
-    // one we generate from scratch. Both keep the exact width×height sizing.
-    const resp = reference
-      ? await client.images.edit({
-          model,
-          image: await toFile(Buffer.from(reference.base64, "base64"), `style-reference.${extForMime(reference.mimeType)}`, {
-            type: reference.mimeType,
-          }),
-          prompt: fullPrompt,
-          size: `${w}x${h}`,
-          quality,
-        })
-      : await client.images.generate({
-          model,
-          prompt: fullPrompt,
-          size: `${w}x${h}`,
-          quality,
-        });
+    // With a reference we condition via images.edit (reference as the input image); without one we
+    // generate from scratch. Both keep the exact width×height sizing. withTimeout bounds the call and
+    // aborts a wedged socket so a hung render can't pin a worker.
+    const resp = await withTimeout(REQUEST_TIMEOUT_MS, async (signal) =>
+      reference
+        ? client.images.edit(
+            {
+              model,
+              image: await toFile(Buffer.from(reference.base64, "base64"), `style-reference.${extForMime(reference.mimeType)}`, {
+                type: reference.mimeType,
+              }),
+              prompt: fullPrompt,
+              size: `${w}x${h}`,
+              quality,
+            },
+            { signal },
+          )
+        : client.images.generate(
+            {
+              model,
+              prompt: fullPrompt,
+              size: `${w}x${h}`,
+              quality,
+            },
+            { signal },
+          ),
+    );
     const b64 = resp.data?.[0]?.b64_json;
     if (!b64) throw new Error("OpenAI response had no b64_json image data.");
-    return { dataUri: `data:image/png;base64,${b64}`, mimeType: "image/png", width: w, height: h };
+    const mimeType = sniffImageMime(b64);
+    return { dataUri: `data:${mimeType};base64,${b64}`, mimeType, width: w, height: h };
   });
 }
 
@@ -487,14 +566,17 @@ async function generateGemini(
     ? [{ inlineData: { mimeType: reference.mimeType, data: reference.base64 } }, { text: fullPrompt }]
     : fullPrompt;
   return withRetries(async () => {
-    const resp = await ai.models.generateContent({
-      model,
-      contents,
-      config: {
-        responseModalities: ["IMAGE"],
-        imageConfig: { aspectRatio: aspect },
-      },
-    });
+    const resp = await withTimeout(REQUEST_TIMEOUT_MS, (signal) =>
+      ai.models.generateContent({
+        model,
+        contents,
+        config: {
+          responseModalities: ["IMAGE"],
+          imageConfig: { aspectRatio: aspect },
+          abortSignal: signal,
+        },
+      }),
+    );
     const parts = resp.candidates?.[0]?.content?.parts ?? [];
     for (const part of parts) {
       const inline = part.inlineData;
