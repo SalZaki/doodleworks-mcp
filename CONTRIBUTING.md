@@ -81,15 +81,31 @@ or let Commitizen prompt you through it:
 pnpm commit             # interactive Conventional Commits prompt (git cz)
 ```
 
+## Releases
+
+Releases are automated by [release-please](https://github.com/googleapis/release-please).
+As Conventional commits land on `main`, it maintains a **Release PR** that bumps the
+version (`feat` → minor, `fix`/`perf` → patch, `!` or `BREAKING CHANGE` → major) and
+regenerates `CHANGELOG.md`. Merging that PR tags `vX.Y.Z` and publishes a GitHub
+Release, so **don't hand-edit `CHANGELOG.md`** — it is generated.
+
+Because PRs are **squash-merged**, the PR *title* becomes the commit subject on `main`,
+and that subject — not the individual commits — is what release-please reads. So a PR
+title must itself be a valid Conventional Commit; a `pr-title-lint` check enforces it.
+(The local `commit-msg` hook validates your commits; the squash title is set on GitHub,
+so CI validates it there.) Maintainers: see [`docs/RELEASING.md`](docs/RELEASING.md).
+
 ## Pull requests
 
 1. Branch from `main` using the [branch-naming convention](#branching).
-2. Keep changes focused; update the README/docs and `CHANGELOG.md` when behaviour
-   changes.
+2. Keep changes focused; update the README/docs when behaviour changes
+   (release-please owns `CHANGELOG.md` — see [Releases](#releases)).
 3. **`pnpm build` and `pnpm test` must pass** before you open the PR — CI runs
-   both on Node 22 and 24.
+   both on Node 22 and 24, and both are required status checks on `main`.
 4. Match the surrounding code style (the codebase favours explicit types, errors
    to stderr only, and comments that explain *why*).
+5. The PR **title** must be a Conventional Commit too — it becomes the squash-merge
+   subject and is checked by `pr-title-lint` (see [Releases](#releases)).
 
 By contributing, you agree that your contributions are licensed under the
 project's [MIT License](LICENSE).

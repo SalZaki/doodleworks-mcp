@@ -1,0 +1,29 @@
+name: release
+
+# release-please watches main, opens/updates a "Release PR" as conventional
+# commits land, and — when that PR is merged — creates the vX.Y.Z tag and the
+# GitHub Release. Note: the Release PR is created with the default GITHUB_TOKEN,
+# so it intentionally does NOT re-run the CI workflow (every constituent change
+# already passed CI before merging to main). See the release strategy spec, §9.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # config-file / manifest-file default to
+          # release-please-config.json and .release-please-manifest.json
