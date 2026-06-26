@@ -9,7 +9,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Open-source scaffolding: `LICENSE` (MIT), `.gitignore`, `.env.example`,
   `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, GitHub issue/PR
-  templates, and a CI workflow (build + test on Node 18/20/22).
+  templates, and a CI workflow (build + test on Node 22 and 24).
 - `package.json` metadata (`license`, `author`, `repository`, `bugs`,
   `homepage`, `keywords`, `engines`, `packageManager`).
 - Per-set cap on the number of illustrations to guard against unbounded paid

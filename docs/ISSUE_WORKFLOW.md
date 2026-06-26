@@ -114,7 +114,7 @@ Both are checklists so progress is visible at a glance.
 
 1. **File** — pick template, fill required fields, attach to parent (sub-issue + textual reference).
 2. **Triage** — apply priority, area, milestone labels.
-3. **Pick up** — move to `status:in-progress` (or assign in a Project). Work on a descriptive branch (e.g. `<type>/<short-description>`).
+3. **Pick up** — move to `status:in-progress` (or assign in a Project). Work on a `<type>/<short-description>` branch, where `<type>` is a Conventional Commit type (`feat`, `fix`, `docs`, `chore`, …) — see [Branching in CONTRIBUTING.md](../CONTRIBUTING.md#branching).
 4. **PR** — open with a title that clearly describes the change. Reference the issue in the PR body (`Closes #N`).
 5. **Merge** — issue auto-closes via `Closes #N`. Children should already be closed; the Epic stays open until every Goal checkbox is ticked.
 
