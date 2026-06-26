@@ -43,33 +43,69 @@ which fails if the two drift. If you edit the character, edit `engine.ts` (the
 source of truth) and paste it verbatim into the `> Tinku is …` blockquote in
 `references/visual-dna.md`.
 
+## Branching
+
+Branch off `main` and name the branch `<type>/<short-description>`, where `<type>`
+is one of the [Conventional Commit types](#commit-messages) and the description is
+kebab-case:
+
+```
+feat/hero-aspect          fix/2k-aspect-size      docs/readme-render-speed
+refactor/extract-parser   chore/bump-deps         test/eviction-coverage
+```
+
+A husky `pre-commit` hook rejects a branch that doesn't match the pattern (`main`
+is the only exempt branch) and tells you how to fix it. Rename a mis-named branch
+with `git branch -m <type>/<short-description>`, or skip the check once with
+`git commit --no-verify`.
+
+## Commit messages
+
+Commits follow [Conventional Commits](https://www.conventionalcommits.org):
+`type(optional-scope): subject` — e.g. `feat: add 21:9 hero aspect` or
+`fix(server): bail background renders for an evicted set`. Allowed types are
+`build`, `chore`, `ci`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`,
+`style`, and `test`.
+
+A husky `commit-msg` hook runs `commitlint` (`@commitlint/config-conventional`)
+and rejects any message that doesn't conform — the hook is installed for you by
+`pnpm install` (via the `prepare` script). Either write the message yourself:
+
+```bash
+git commit -m "fix: correct the 2k aspect size"
+```
+
+or let Commitizen prompt you through it:
+
+```bash
+pnpm commit             # interactive Conventional Commits prompt (git cz)
+```
+
+## Releases
+
+Releases are automated by [release-please](https://github.com/googleapis/release-please).
+As Conventional commits land on `main`, it maintains a **Release PR** that bumps the
+version (`feat` → minor, `fix`/`perf` → patch, `!` or `BREAKING CHANGE` → major) and
+regenerates `CHANGELOG.md`. Merging that PR tags `vX.Y.Z` and publishes a GitHub
+Release, so **don't hand-edit `CHANGELOG.md`** — it is generated.
+
+Because PRs are **squash-merged**, the PR *title* becomes the commit subject on `main`,
+and that subject — not the individual commits — is what release-please reads. So a PR
+title must itself be a valid Conventional Commit; a `pr-title-lint` check enforces it.
+(The local `commit-msg` hook validates your commits; the squash title is set on GitHub,
+so CI validates it there.) Maintainers: see [`docs/RELEASING.md`](docs/RELEASING.md).
+
 ## Pull requests
 
-1. Branch from `main`.
-2. Keep changes focused; update the README/docs when behaviour changes. Do not
-   edit `CHANGELOG.md` by hand — release-please generates it from the commit
-   history (see "Conventional commits & releases" below).
+1. Branch from `main` using the [branch-naming convention](#branching).
+2. Keep changes focused; update the README/docs when behaviour changes
+   (release-please owns `CHANGELOG.md` — see [Releases](#releases)).
 3. **`pnpm build` and `pnpm test` must pass** before you open the PR — CI runs
    both on Node 22 and 24, and both are required status checks on `main`.
 4. Match the surrounding code style (the codebase favours explicit types, errors
    to stderr only, and comments that explain *why*).
-
-## Conventional commits & releases
-
-Commits and **pull-request titles** follow [Conventional Commits](https://www.conventionalcommits.org/).
-Because PRs are **squash-merged**, the PR title becomes the commit subject — and
-that subject drives both the changelog and the next version number. A
-`pr-title-lint` check enforces this on every PR.
-
-Allowed types: `feat`, `fix`, `perf`, `docs`, `chore`, `ci`, `build`, `test`,
-`refactor`, `style`, `revert`. `feat:` triggers a minor bump, `fix:`/`perf:` a
-patch; add `!` (e.g. `feat!:`) or a `BREAKING CHANGE:` footer for a major bump.
-
-Releases are automated by [release-please](https://github.com/googleapis/release-please).
-As typed commits land on `main`, release-please opens a **"Release PR"** that
-bumps the version and updates `CHANGELOG.md`. Merging that PR cuts the release:
-it tags `vX.Y.Z` and publishes a GitHub Release. Maintainers: see
-[`docs/RELEASING.md`](docs/RELEASING.md).
+5. The PR **title** must be a Conventional Commit too — it becomes the squash-merge
+   subject and is checked by `pr-title-lint` (see [Releases](#releases)).
 
 By contributing, you agree that your contributions are licensed under the
 project's [MIT License](LICENSE).

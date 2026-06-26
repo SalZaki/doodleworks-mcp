@@ -262,7 +262,6 @@ function renderStage() {
   const status: IllustrationStatus = p.dataUri ? "ready" : illustrationStatus.get(current) ?? "pending";
   const isRegenerating = regenerating.has(current);
 
-  // One of: image / error / skeleton.
   if (p.dataUri) {
     imgEl.src = p.dataUri;
     imgEl.alt = `Hand-drawn illustration: ${p.title}`;
@@ -292,7 +291,7 @@ function renderStage() {
     skeletonEl.hidden = false;
   }
 
-  // Title caption, shown only once the image itself is on screen.
+  // Title caption, shown only when the image is on screen.
   captionEl.textContent = p.title;
   captionEl.hidden = !p.dataUri;
 
@@ -583,9 +582,8 @@ async function withTitle(dataUri: string, title: string): Promise<string> {
     const h = img.naturalHeight;
     if (!w || !h) return dataUri;
 
-    // The title goes in a dedicated caption band BELOW the artwork — never overlapping it —
-    // in the same sans-serif family the in-viewer caption uses, so a saved PNG reads
-    // consistently and the illustration itself is never covered.
+    // The title goes in a dedicated caption band below the artwork, never overlapping it,
+    // in the same sans-serif family as the in-viewer caption so a saved PNG reads consistently.
     const fontSize = Math.max(16, Math.round(h * 0.04));
     const bandH = Math.round(fontSize * 2.4);
     const canvas = document.createElement("canvas");
@@ -594,7 +592,7 @@ async function withTitle(dataUri: string, title: string): Promise<string> {
     const ctx = canvas.getContext("2d");
     if (!ctx) return dataUri;
 
-    // Pure-white canvas (matches the house background), artwork on top, title in the band below.
+    // Pure white matches the house background.
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, w, h + bandH);
     ctx.drawImage(img, 0, 0);

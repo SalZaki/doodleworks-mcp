@@ -24,7 +24,7 @@ const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
  * restarting the host silently serves a stale bundle: if the server's `_meta` shape has moved on,
  * the viewer rejects the payload and the UI hangs forever on "Waiting for the illustrations…".
  * Surfacing it here puts the fix ("run `pnpm run build`") in the exact log a confused user checks.
- * Best-effort only — any stat failure is swallowed so this can never block startup.
+ * Best-effort: any stat failure is swallowed so this never blocks startup.
  */
 async function warnIfViewerStale(): Promise<void> {
   try {
