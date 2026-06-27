@@ -15,6 +15,7 @@ execFileSync("npm", ["install", "--no-save", path.join(repo, tar)], { cwd: dir, 
 const bin = path.join(dir, "node_modules", ".bin", "doodleworks-mcp");
 const child = spawn(bin, [], { cwd: dir });
 let out = "";
+let passed = false;
 child.stdout.on("data", (d) => (out += d));
 child.stderr.on("data", (d) => process.stderr.write(d));
 child.stdin.write(
@@ -25,9 +26,10 @@ const timer = setTimeout(() => { child.kill(); fail("no response within 10s"); }
 function fail(m) { console.error(`SMOKE FAIL: ${m}`); process.exit(1); }
 child.stdout.on("data", () => {
   if (out.includes('"result"') && out.includes("serverInfo")) {
+    passed = true;
     clearTimeout(timer); child.kill();
     console.log("SMOKE OK: packaged npx server answered initialize");
     process.exit(0);
   }
 });
-child.on("exit", (code) => { clearTimeout(timer); fail(`bin exited early (code ${code})`); });
+child.on("exit", (code) => { if (passed) return; clearTimeout(timer); fail(`bin exited early (code ${code})`); });
