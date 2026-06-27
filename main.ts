@@ -1,7 +1,9 @@
+#!/usr/bin/env node
 /**
- * main.ts — entry point. `--stdio` for use inside an MCP host (Claude Desktop,
- * VS Code, etc.); otherwise a local Streamable HTTP server for testing with the
- * ext-apps basic-host. Adapted from the MCP Apps quickstart.
+ * main.ts — entry point. No flag → stdio transport, for use inside an MCP host
+ * (Claude Desktop, VS Code, etc.) via `npx doodleworks-mcp`. `--http` starts a
+ * local Streamable HTTP server for testing with the ext-apps basic-host
+ * (`--stdio` is still accepted). Adapted from the MCP Apps quickstart.
  */
 
 import { createMcpExpressApp } from "@modelcontextprotocol/sdk/server/express.js";
@@ -13,22 +15,23 @@ import type { Request, Response } from "express";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { VIEWER_BUNDLE } from "./paths.js";
 import { createServer } from "./server.js";
 
 const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * Warn (loudly, to stderr — the channel MCP hosts log) when the built viewer is missing or older
- * than its sources. The host launches this server with `tsx main.ts --stdio`, which runs the server
- * live but NEVER rebuilds the Vite single-file viewer in `dist/`. So editing the viewer and
- * restarting the host silently serves a stale bundle: if the server's `_meta` shape has moved on,
+ * than its sources. The dev viewer flow (the local `--http` dev server via `pnpm start`) runs the
+ * server live but NEVER rebuilds the Vite single-file viewer in `dist/`. So editing the viewer and
+ * restarting the dev server silently serves a stale bundle: if the server's `_meta` shape has moved on,
  * the viewer rejects the payload and the UI hangs forever on "Waiting for the illustrations…".
  * Surfacing it here puts the fix ("run `pnpm run build`") in the exact log a confused user checks.
  * Best-effort: any stat failure is swallowed so this never blocks startup.
  */
 async function warnIfViewerStale(): Promise<void> {
   try {
-    const bundle = path.join(MODULE_DIR, "dist", "mcp-app.html");
+    const bundle = VIEWER_BUNDLE;
     const bundleStat = await fs.stat(bundle).catch(() => undefined);
     if (!bundleStat) {
       console.error(
@@ -121,11 +124,11 @@ export async function startStdioServer(factory: () => McpServer): Promise<void> 
 }
 
 async function main() {
-  await warnIfViewerStale();
-  if (process.argv.includes("--stdio")) {
-    await startStdioServer(createServer);
-  } else {
+  if (process.argv.includes("--http")) {
+    await warnIfViewerStale();
     await startStreamableHTTPServer(createServer);
+  } else {
+    await startStdioServer(createServer);
   }
 }
 

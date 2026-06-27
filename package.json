@@ -1,8 +1,13 @@
 {
   "name": "doodleworks-mcp",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "type": "module",
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "description": "Turn any idea, blog post, article, or X post into hand-drawn \"Tinku\" illustrations that explain the key concepts — an MCP App with an interactive viewer for your AI host; bring-your-own image API key (OpenAI/Gemini).",
   "license": "MIT",
   "author": "Salahuddin Zaki <salzaki@hotmail.com>",
@@ -23,14 +28,15 @@
     "openai",
     "gemini"
   ],
+  "bin": { "doodleworks-mcp": "dist/main.js" },
   "engines": {
     "node": ">=22"
   },
   "packageManager": "pnpm@10.34.3",
   "scripts": {
     "check:tinku": "node scripts/check-tinku-sync.mjs",
-    "build": "pnpm run check:tinku && tsc --noEmit && tsc -p tsconfig.server.json && cross-env INPUT=mcp-app.html vite build",
-    "start": "concurrently --raw \"cross-env NODE_ENV=development INPUT=mcp-app.html vite build --watch\" \"tsx watch main.ts\"",
+    "build": "pnpm run check:tinku && tsc --noEmit && cross-env INPUT=mcp-app.html vite build && tsc -p tsconfig.server.json && node scripts/copy-runtime-assets.mjs",
+    "start": "concurrently --raw \"cross-env NODE_ENV=development INPUT=mcp-app.html vite build --watch\" \"tsx watch main.ts --http\"",
     "serve:stdio": "tsx main.ts --stdio",
     "typecheck:test": "tsc -p tsconfig.test.json",
     "test": "pnpm run typecheck:test && node --import tsx --test test/*.test.ts",

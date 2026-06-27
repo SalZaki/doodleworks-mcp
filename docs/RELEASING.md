@@ -39,15 +39,21 @@ The baseline `v1.0.0` tag + GitHub Release were created from `main` at the first
 public release. release-please computes every later version from commits after
 that tag.
 
-## Phase 2 — npm / npx (not yet enabled)
+## npm / npx publishing
 
-To ship `npx doodleworks-mcp` later:
+Published to npm automatically on each release via the `publish-npm` job in
+`release.yml`, using **OIDC trusted publishing** (no stored token) with a
+provenance attestation. Consumers run `npx doodleworks-mcp`.
 
-1. Set `"private": false`; add `"bin"` and `"files"` (include built `dist/`);
-   confirm `prepare`/`prepublishOnly` builds the viewer bundle so the published
-   tarball is runnable.
-2. Add an npm publish step to `release.yml`, gated on the action's
-   `release_created` output, using OIDC + `npm publish --provenance`
-   (`permissions: id-token: write`), npm >= 9.5.
-3. Verify `npx doodleworks-mcp` boots the server for a clean consumer before
-   announcing it.
+**One-time setup (npmjs.com):** register a *trusted publisher* for the
+`doodleworks-mcp` package — owner `SalZaki`, repo `doodleworks-mcp`, workflow
+`release.yml`. npm allows pre-registering before the package exists, so the
+first publish creates it.
+
+**How a version reaches npm:** merging a release-please Release PR creates the
+GitHub Release (`release_created`), which runs `publish-npm` → build →
+packaged-tarball smoke test → `npm publish --provenance`.
+
+**Bootstrap — first npm publish (one time):** 1.0.0 was published via the workflow's
+`workflow_dispatch` (input `publish_ref: v1.0.0`), since the v1.0.0 tag predates
+the publish job.

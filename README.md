@@ -118,6 +118,24 @@ Doodleworks is an **MCP App**: it exposes tools *and* an interactive UI. Every h
 
 Expand your host below for copy-paste config. For every one: replace `/ABSOLUTE/PATH/doodleworks-mcp` with your clone's real path (`pwd` in the repo; on Windows use `C:\\path\\to\\doodleworks-mcp` with doubled backslashes), and use the key you exported.
 
+### Install via npx (no clone)
+
+Add to your MCP host config (e.g. Claude Desktop `claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "doodleworks": {
+      "command": "npx",
+      "args": ["-y", "doodleworks-mcp"],
+      "env": { "OPENAI_API_KEY": "sk-..." }
+    }
+  }
+}
+```
+
+`npx` fetches the published package and runs the stdio server — no clone, no build. Provide `OPENAI_API_KEY` or `GEMINI_API_KEY` to render illustrations.
+
 <details id="cursor">
 <summary><b>Cursor</b> — full viewer (Cursor 2.6+)</summary>
 
