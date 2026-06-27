@@ -297,7 +297,7 @@ In normal use the model fills these in from your request. You don't write JSON b
 | `spine` | inferred from the topic | Narrative spine: `teaching` / `persuasion` / `report` / `product` / `knowledge-card`. |
 
 > [!NOTE]
-> `styleReference` and `quality` resolve in order: **per-illustration → set-wide → environment default → none**. With no style reference anywhere, Doodleworks draws from its built-in text-only style guidance. A **tool-supplied** `styleReference` is sandboxed: it must be a library id, a data-URI, or a file inside `assets/style-references/`; only the operator-set `DOODLEWORKS_STYLE_REF` env may point elsewhere on disk. The viewer's **Regenerate** button re-renders one illustration and reuses the set's resolution, quality, and style unless you change the prompt.
+> `styleReference` resolves in order: **per-illustration → set-wide → `DOODLEWORKS_STYLE_REF` env → none**. `quality` resolves **set-wide → `DOODLEWORKS_QUALITY` env → `low`**. With no style reference anywhere, Doodleworks draws from its built-in text-only style guidance. A **tool-supplied** `styleReference` is sandboxed: it must be a library id, a data-URI, or a file inside `assets/style-references/`; only the operator-set `DOODLEWORKS_STYLE_REF` env may point elsewhere on disk. The viewer's **Regenerate** button re-renders one illustration and reuses the set's resolution, quality, and style unless you change the prompt.
 
 ## 🖼️ The viewer
 
