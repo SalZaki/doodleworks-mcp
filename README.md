@@ -11,6 +11,7 @@
 [![pnpm](https://img.shields.io/badge/maintained_with-pnpm-f69220.svg?logo=pnpm&logoColor=white)](https://pnpm.io/)
 
 [![CI](https://github.com/SalZaki/doodleworks-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/SalZaki/doodleworks-mcp/actions/workflows/ci.yml)
+[![Socket Security](https://badge.socket.dev/npm/package/doodleworks-mcp/1.0.0)](https://socket.dev/npm/package/doodleworks-mcp) <!-- x-release-please-version -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor_Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)

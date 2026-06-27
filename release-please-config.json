@@ -17,6 +17,8 @@
     { "type": "style", "section": "Styles", "hidden": true }
   ],
   "packages": {
-    ".": {}
+    ".": {
+      "extra-files": ["README.md"]
+    }
   }
 }
