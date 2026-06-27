@@ -110,7 +110,7 @@ Create **`.cursor/mcp.json`** in your project (or `~/.cursor/mcp.json` for all p
 ```json
 {
   "mcpServers": {
-    "doodleworks": {
+    "doodleworks-mcp": {
       "command": "npx",
       "args": ["-y", "doodleworks-mcp"],
       "env": { "OPENAI_API_KEY": "${env:OPENAI_API_KEY}" }
