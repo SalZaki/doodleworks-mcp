@@ -30,3 +30,7 @@ coverage/
 *.swp
 .idea/
 .vscode/
+
+# AI workflow artifacts (specs/plans + scratch) — kept locally, not tracked
+docs/superpowers/
+.superpowers/
