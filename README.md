@@ -66,7 +66,7 @@ No clone and no build required: `npx` fetches the published [`doodleworks-mcp`](
 ```json
 {
   "mcpServers": {
-    "doodleworks": {
+    "doodleworks-mcp": {
       "command": "npx",
       "args": ["-y", "doodleworks-mcp"],
       "env": { "OPENAI_API_KEY": "sk-..." }
