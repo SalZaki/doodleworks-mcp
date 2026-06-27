@@ -54,6 +54,6 @@ first publish creates it.
 GitHub Release (`release_created`), which runs `publish-npm` → build →
 packaged-tarball smoke test → `npm publish --provenance`.
 
-**Bootstrap (one time):** 1.0.0 was published via the workflow's
+**Bootstrap — first npm publish (one time):** 1.0.0 was published via the workflow's
 `workflow_dispatch` (input `publish_ref: v1.0.0`), since the v1.0.0 tag predates
 the publish job.
