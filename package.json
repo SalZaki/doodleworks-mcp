@@ -40,13 +40,7 @@
     "serve:stdio": "tsx main.ts --stdio",
     "typecheck:test": "tsc -p tsconfig.test.json",
     "test": "pnpm run typecheck:test && node --import tsx --test test/*.test.ts",
-    "commit": "cz",
     "prepare": "husky && pnpm run build"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
   },
   "dependencies": {
     "@google/genai": "^2.8.0",
@@ -63,10 +57,8 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^22.0.0",
-    "commitizen": "^4.3.2",
     "concurrently": "^9.1.0",
     "cross-env": "^7.0.3",
-    "cz-conventional-changelog": "^3.3.0",
     "husky": "^9.1.7",
     "tsx": "^4.19.0",
     "typescript": "^5.4.0",
