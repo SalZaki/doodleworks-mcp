@@ -211,7 +211,7 @@ Edit **`~/.codeium/windsurf/mcp_config.json`** (Windows: `%USERPROFILE%\.codeium
 ```json
 {
   "mcpServers": {
-    "doodleworks": {
+    "doodleworks-mcp": {
       "command": "npx",
       "args": ["-y", "doodleworks-mcp"],
       "env": { "OPENAI_API_KEY": "sk-..." }
