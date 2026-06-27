@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * main.ts — entry point. `--stdio` for use inside an MCP host (Claude Desktop,
  * VS Code, etc.); otherwise a local Streamable HTTP server for testing with the
@@ -122,11 +123,11 @@ export async function startStdioServer(factory: () => McpServer): Promise<void> 
 }
 
 async function main() {
-  await warnIfViewerStale();
-  if (process.argv.includes("--stdio")) {
-    await startStdioServer(createServer);
-  } else {
+  if (process.argv.includes("--http")) {
+    await warnIfViewerStale();
     await startStreamableHTTPServer(createServer);
+  } else {
+    await startStdioServer(createServer);
   }
 }
 

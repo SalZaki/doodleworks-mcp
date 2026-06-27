@@ -23,6 +23,7 @@
     "openai",
     "gemini"
   ],
+  "bin": { "doodleworks-mcp": "dist/main.js" },
   "engines": {
     "node": ">=22"
   },
@@ -30,7 +31,7 @@
   "scripts": {
     "check:tinku": "node scripts/check-tinku-sync.mjs",
     "build": "pnpm run check:tinku && tsc --noEmit && cross-env INPUT=mcp-app.html vite build && tsc -p tsconfig.server.json && node scripts/copy-runtime-assets.mjs",
-    "start": "concurrently --raw \"cross-env NODE_ENV=development INPUT=mcp-app.html vite build --watch\" \"tsx watch main.ts\"",
+    "start": "concurrently --raw \"cross-env NODE_ENV=development INPUT=mcp-app.html vite build --watch\" \"tsx watch main.ts --http\"",
     "serve:stdio": "tsx main.ts --stdio",
     "typecheck:test": "tsc -p tsconfig.test.json",
     "test": "pnpm run typecheck:test && node --import tsx --test test/*.test.ts",
