@@ -1,14 +1,17 @@
 name: release
 
-# release-please watches main, opens/updates a "Release PR" as conventional
-# commits land, and — when that PR is merged — creates the vX.Y.Z tag and the
-# GitHub Release. Note: the Release PR is created with the default GITHUB_TOKEN,
-# so it intentionally does NOT re-run the CI workflow (every constituent change
-# already passed CI before merging to main). See the release strategy spec, §9.
-
+# release-please opens/updates a Release PR; merging it creates the tag +
+# GitHub Release, which triggers publish-npm. The workflow_dispatch path runs
+# publish-npm directly for the one-time v1.0.0 bootstrap.
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      publish_ref:
+        description: "git ref/tag to build and publish (e.g. v1.0.0)"
+        required: true
+        default: "v1.0.0"
 
 permissions:
   contents: write
@@ -20,10 +23,40 @@ concurrency:
 
 jobs:
   release-please:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.rp.outputs.release_created }}
+      tag_name: ${{ steps.rp.outputs.tag_name }}
     steps:
-      - uses: googleapis/release-please-action@v4
+      - id: rp
+        uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          # config-file / manifest-file default to
-          # release-please-config.json and .release-please-manifest.json
+
+  publish-npm:
+    needs: release-please
+    # Run after a real release, OR on a manual dispatch (the 1.0.0 bootstrap).
+    if: ${{ always() && (needs.release-please.outputs.release_created == 'true' || github.event_name == 'workflow_dispatch') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write   # OIDC for npm trusted publishing + provenance
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.publish_ref || needs.release-please.outputs.tag_name }}
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+          cache: pnpm
+      - name: Upgrade npm (OIDC trusted publishing needs a recent npm)
+        run: npm install -g npm@latest
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - name: Smoke-test the packed tarball
+        run: node scripts/smoke-pack.mjs
+      - name: Publish to npm with provenance
+        run: npm publish --provenance --access public --ignore-scripts
