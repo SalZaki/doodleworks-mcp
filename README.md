@@ -245,7 +245,7 @@ With the server connected, just ask your host in plain language: the model calls
 
 > Use **doodleworks** to create a set of 6 illustrations explaining **how a heat pump heats your home**, for homeowners, one idea per image.
 
-**Prefer to plan first?** Invoke the bundled prompt (it surfaces in hosts that show MCP prompts as `/mcp__doodleworks__plan_illustrations`):
+**Prefer to plan first?** Invoke the bundled prompt (it surfaces in hosts that show MCP prompts as `/mcp__doodleworks-mcp__plan_illustrations`):
 
 > Run the doodleworks **plan_illustrations** prompt for topic "how a heat pump heats your home" (audience: homeowners, count: 6), then call **create_illustrations** with the plan.
 
