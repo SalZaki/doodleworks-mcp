@@ -275,7 +275,7 @@ In normal use the model fills these in from your request. You don't write JSON b
 | `title` | none | A title for the set; shown in the viewer and can be burned onto downloaded PNGs. |
 | `resolution` | `1k` | Size tier: `1k` or `2k` (`2k` is heavier for inline display). |
 | `quality` | `DOODLEWORKS_QUALITY` env, else `low` | OpenAI image quality: `low` / `medium` / `high` / `auto`. Lower is faster and cheaper. Ignored by Gemini. |
-| `styleReference` | `DOODLEWORKS_STYLE_REF` env, else none | Drawing-style reference for the whole set: a [library id](assets/style-references/), a data-URI, or a local path. Calibrates *style only*, never the character or text. |
+| `styleReference` | `DOODLEWORKS_STYLE_REF` env, else none | Drawing-style reference for the whole set: a [library id](assets/style-references/), a data-URI, or a file inside `assets/style-references/` (tool-supplied paths are sandboxed there; see the note below). Calibrates *style only*, never the character or text. |
 
 **Per illustration** (each entry inside `illustrations[]`)
 
@@ -285,7 +285,7 @@ In normal use the model fills these in from your request. You don't write JSON b
 | `title` | *(required)* | Short title for this illustration. |
 | `aspect` | `16:9` | `16:9` for a standard panel, or `21:9` for a wider hero illustration. |
 | `archetype` | none | Optional layout aid: `process` / `cycle` / `stack` / `taxonomy` / `matrix` / `timeline` / `decision` / `data-shape` / `summary`. |
-| `styleReference` | the set-wide value | A style reference for just this illustration; overrides the set-wide one. |
+| `styleReference` | the set-wide value | Overrides the set-wide reference for just this illustration (same accepted values and sandbox). |
 
 **`plan_illustrations` (the planning prompt)**
 
@@ -293,11 +293,11 @@ In normal use the model fills these in from your request. You don't write JSON b
 | --- | --- | --- |
 | `topic` | *(required)* | The topic or source to illustrate. |
 | `audience` | inferred from the topic | Who it's for and what they already know. |
-| `count` | model proposes 4–8 | How many illustrations, as an integer. |
+| `count` | model proposes 4–8 | How many illustrations, as an integer (passed as a string in the schema). |
 | `spine` | inferred from the topic | Narrative spine: `teaching` / `persuasion` / `report` / `product` / `knowledge-card`. |
 
 > [!NOTE]
-> `styleReference` and `quality` resolve in order: **per-illustration → set-wide → environment default → none**. With no style reference anywhere, Doodleworks draws from its built-in text-only style guidance. The viewer's **Regenerate** button re-renders one illustration and reuses the set's resolution, quality, and style unless you change the prompt.
+> `styleReference` and `quality` resolve in order: **per-illustration → set-wide → environment default → none**. With no style reference anywhere, Doodleworks draws from its built-in text-only style guidance. A **tool-supplied** `styleReference` is sandboxed: it must be a library id, a data-URI, or a file inside `assets/style-references/`; only the operator-set `DOODLEWORKS_STYLE_REF` env may point elsewhere on disk. The viewer's **Regenerate** button re-renders one illustration and reuses the set's resolution, quality, and style unless you change the prompt.
 
 ## 🖼️ The viewer
 
