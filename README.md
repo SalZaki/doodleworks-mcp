@@ -178,7 +178,7 @@ Open **Settings → Developer → Edit Config** (or edit `~/Library/Application 
 ```json
 {
   "mcpServers": {
-    "doodleworks": {
+    "doodleworks-mcp": {
       "command": "npx",
       "args": ["-y", "doodleworks-mcp"],
       "env": { "OPENAI_API_KEY": "sk-..." }
