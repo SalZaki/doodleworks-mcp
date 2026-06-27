@@ -1,8 +1,8 @@
 name: codeql
 
 # GitHub CodeQL static analysis for the TypeScript/JavaScript source. Results
-# surface under the repo's Security → Code scanning tab. Free for public repos.
-# Not a required status check — it reports findings, it does not gate merges.
+# surface under Security → Code scanning. Free for public repos. Not a required
+# status check — it reports findings, it does not gate merges.
 on:
   push:
     branches: [main]
@@ -14,25 +14,40 @@ on:
 permissions:
   contents: read
 
+# Don't pile up redundant analyses on rapid pushes to the same ref.
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   analyze:
     name: analyze (${{ matrix.language }})
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
-      security-events: write
-      actions: read
+      security-events: write # upload results to code scanning
+      actions: read # read workflow run metadata (needed on private repos; harmless here)
       contents: read
     strategy:
       fail-fast: false
       matrix:
-        language: [javascript-typescript]
+        include:
+          - language: javascript-typescript
+            build-mode: none # JS/TS is interpreted — CodeQL extracts from source, no build
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
-      # JavaScript/TypeScript needs no build step — CodeQL extracts from source.
+          build-mode: ${{ matrix.build-mode }}
+          # Broader security coverage than the default suite. Findings are
+          # informational here (not a merge gate); swap to security-and-quality
+          # to also include maintainability queries.
+          queries: security-extended
+
       - name: Perform CodeQL analysis
         uses: github/codeql-action/analyze@v3
         with:
