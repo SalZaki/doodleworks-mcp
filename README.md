@@ -80,7 +80,7 @@ No clone and no build required: `npx` fetches the published [`doodleworks-mcp`](
 > Use **doodleworks** to create a set of 6 illustrations explaining **how a heat pump heats your home**, for homeowners, one idea per image.
 
 > [!TIP]
-> The model writes each illustration's prompt for you. You just describe the topic. In a graphical host the **viewer opens** with the gallery; in a terminal host you'll get the images as tool output.
+> The model writes each illustration's prompt for you. You just describe the topic. In a graphical host the **viewer opens** with the gallery; in a terminal host you'll get tool output only (no inline viewer).
 
 ## 🔌 Add it to your AI host
 
