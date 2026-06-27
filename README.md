@@ -155,9 +155,9 @@ Goose uses YAML. Edit **`~/.config/goose/config.yaml`** (Windows: `%APPDATA%\Blo
 
 ```yaml
 extensions:
-  doodleworks:
+  doodleworks-mcp:
     type: stdio
-    name: doodleworks
+    name: doodleworks-mcp
     enabled: true
     cmd: npx
     args: ["-y", "doodleworks-mcp"]
