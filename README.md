@@ -134,7 +134,7 @@ VS Code uses a `servers` key (not `mcpServers`) and can prompt for the key secur
     { "type": "promptString", "id": "openai-api-key", "description": "OpenAI API key", "password": true }
   ],
   "servers": {
-    "doodleworks": {
+    "doodleworks-mcp": {
       "type": "stdio",
       "command": "npx",
       "args": ["-y", "doodleworks-mcp"],
