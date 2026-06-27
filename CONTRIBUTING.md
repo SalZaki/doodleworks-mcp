@@ -69,16 +69,10 @@ Commits follow [Conventional Commits](https://www.conventionalcommits.org):
 
 A husky `commit-msg` hook runs `commitlint` (`@commitlint/config-conventional`)
 and rejects any message that doesn't conform — the hook is installed for you by
-`pnpm install` (via the `prepare` script). Either write the message yourself:
+`pnpm install` (via the `prepare` script). Write the message conventionally:
 
 ```bash
 git commit -m "fix: correct the 2k aspect size"
-```
-
-or let Commitizen prompt you through it:
-
-```bash
-pnpm commit             # interactive Conventional Commits prompt (git cz)
 ```
 
 ## Releases
