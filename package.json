@@ -1,8 +1,13 @@
 {
   "name": "doodleworks-mcp",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "type": "module",
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "description": "Turn any idea, blog post, article, or X post into hand-drawn \"Tinku\" illustrations that explain the key concepts — an MCP App with an interactive viewer for your AI host; bring-your-own image API key (OpenAI/Gemini).",
   "license": "MIT",
   "author": "Salahuddin Zaki <salzaki@hotmail.com>",
