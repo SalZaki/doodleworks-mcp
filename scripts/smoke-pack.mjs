@@ -7,7 +7,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 
 const repo = process.cwd();
-const tar = execFileSync("npm", ["pack", "--silent"], { cwd: repo }).toString().trim().split("\n").pop();
+const tar = execFileSync("npm", ["pack", "--silent", "--ignore-scripts"], { cwd: repo }).toString().trim().split("\n").pop();
 const dir = mkdtempSync(path.join(tmpdir(), "dw-smoke-"));
 writeFileSync(path.join(dir, "package.json"), JSON.stringify({ name: "smoke", private: true }));
 execFileSync("npm", ["install", "--no-save", path.join(repo, tar)], { cwd: dir, stdio: "inherit" });

@@ -37,6 +37,7 @@ jobs:
   publish-npm:
     needs: release-please
     # Run after a real release, OR on a manual dispatch (the 1.0.0 bootstrap).
+    # always() is needed so the dispatch path isn't skipped when the release-please job is skipped.
     if: ${{ always() && (needs.release-please.outputs.release_created == 'true' || github.event_name == 'workflow_dispatch') }}
     runs-on: ubuntu-latest
     permissions:
