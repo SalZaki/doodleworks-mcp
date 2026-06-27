@@ -45,15 +45,21 @@ Published to npm automatically on each release via the `publish-npm` job in
 `release.yml`, using **OIDC trusted publishing** (no stored token) with a
 provenance attestation. Consumers run `npx doodleworks-mcp`.
 
-**One-time setup (npmjs.com):** register a *trusted publisher* for the
+**Setup (npmjs.com):** a *trusted publisher* is registered on the
 `doodleworks-mcp` package — owner `SalZaki`, repo `doodleworks-mcp`, workflow
-`release.yml`. npm allows pre-registering before the package exists, so the
-first publish creates it.
+`release.yml`. This requires the package to already exist (npm does not support
+pre-registering a trusted publisher for a not-yet-published name), so the very
+first publish was bootstrapped with a temporary token (see Bootstrap below);
+every release since authenticates keyless via OIDC.
 
 **How a version reaches npm:** merging a release-please Release PR creates the
 GitHub Release (`release_created`), which runs `publish-npm` → build →
 packaged-tarball smoke test → `npm publish --provenance`.
 
 **Bootstrap — first npm publish (one time):** 1.0.0 was published via the workflow's
-`workflow_dispatch` (input `publish_ref: v1.0.0`), since the v1.0.0 tag predates
-the publish job.
+`workflow_dispatch` with input `publish_ref: main` — the `v1.0.0` git tag predates
+the publishing machinery, so the publishable 1.0.0 code lives on `main`. Because a
+trusted publisher can't be pre-registered for a non-existent package, that first
+publish authenticated with a temporary `NPM_TOKEN` (a classic Automation token,
+which bypasses 2FA) while still attesting provenance via OIDC. The token was then
+removed and the trusted publisher registered, so all later releases publish keyless.

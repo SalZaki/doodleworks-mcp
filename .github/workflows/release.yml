@@ -60,12 +60,7 @@ jobs:
       - name: Smoke-test the packed tarball
         run: node scripts/smoke-pack.mjs
       - name: Publish to npm with provenance
-        # Bootstrap auth: a one-time NPM_TOKEN secret authenticates the FIRST publish,
-        # because npm trusted publishing can't be pre-registered before the package
-        # exists. --provenance still attests via OIDC (id-token: write, above), so
-        # 1.0.0 ships with provenance. Once the package exists: register the trusted
-        # publisher, delete this env block, and remove the NPM_TOKEN secret to return
-        # to keyless OIDC publishing.
+        # Keyless: authenticates via npm OIDC trusted publishing (configured on the
+        # doodleworks-mcp package on npmjs.com) — no token. --provenance attests via
+        # id-token: write (above). The one-time NPM_TOKEN bootstrap is retired.
         run: npm publish --provenance --access public --ignore-scripts
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
