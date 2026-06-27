@@ -20,3 +20,17 @@ updates:
           - "*"
     commit-message:
       prefix: "chore(deps)"
+
+  # Keeps the SHA-pinned actions in .github/workflows/ current (and the # vX
+  # comment bumped). ci(deps) is non-releasing and passes the PR-title lint.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    groups:
+      all-actions:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "ci(deps)"
