@@ -80,7 +80,7 @@ No clone and no build required: `npx` fetches the published [`doodleworks-mcp`](
 > Use **doodleworks** to create a set of 6 illustrations explaining **how a heat pump heats your home**, for homeowners, one idea per image.
 
 > [!TIP]
-> The model writes each illustration's prompt for you. You just describe the topic. In a graphical host the **viewer opens** with the gallery; in a terminal host you'll get tool output only (no inline viewer).
+> The model writes each illustration's prompt for you. You just describe the topic. In a graphical host the **viewer opens** with the gallery; in a terminal host you'll get tool output only (a text summary, not the rendered images).
 
 ## 🔌 Add it to your AI host
 
@@ -249,7 +249,7 @@ With the server connected, just ask your host in plain language: the model calls
 
 > Run the doodleworks **plan_illustrations** prompt for topic "how a heat pump heats your home" (audience: homeowners, count: 6), then call **create_illustrations** with the plan.
 
-In a graphical host (Cursor, VS Code, Claude Desktop, Goose) the **viewer opens** with the gallery; in **Claude Code** (terminal) you'll get the illustrations as tool output, with no inline viewer.
+In a graphical host (Cursor, VS Code, Claude Desktop, Goose) the **viewer opens** with the gallery; in **Claude Code** (terminal) there's no viewer, so you'll get tool output only (a text summary, not the rendered images).
 
 <details>
 <summary><b>The tools &amp; prompt</b> (reference)</summary>
