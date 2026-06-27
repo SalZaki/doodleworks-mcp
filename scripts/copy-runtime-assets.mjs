@@ -4,10 +4,9 @@
 // lives in dist/, so the references must live in dist/ too.
 // MUST run AFTER `vite build` (vite empties dist/) and after the tsc emit.
 import { cpSync, existsSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import path from "node:path";
 
-const root = fileURLToPath(new URL("..", import.meta.url)).replace(/\/$/, '') || '.';
+const root = path.dirname(import.meta.dirname);
 const from = path.join(root, "references");
 const to = path.join(root, "dist", "references");
 
