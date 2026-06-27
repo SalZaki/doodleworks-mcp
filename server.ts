@@ -22,7 +22,7 @@ import { z } from "zod";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
-import { fileURLToPath } from "node:url";
+import { REFERENCES_DIR, VIEWER_BUNDLE } from "./paths.js";
 import {
   listStyleReferences,
   listStyleReferencesSync,
@@ -48,9 +48,6 @@ import {
 /** The illustration renderer, injectable for tests; production uses the real engine. */
 type RenderPageFn = (page: PageSpec, opts?: RenderOptions) => Promise<RenderedImage>;
 
-const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
-const DIST_DIR = path.join(MODULE_DIR, "dist");
-const REFERENCES_DIR = path.join(MODULE_DIR, "references");
 const RESOURCE_URI = "ui://doodleworks-mcp/viewer.html";
 
 // Planning knowledge bundled with the app and surfaced as doc:// resources, so any host has the
@@ -625,7 +622,7 @@ export function createServer(deps: { renderPage?: RenderPageFn } = {}): McpServe
 // reaches the viewer until the whole MCP process restarts.)
 let cachedViewerHtml: { mtimeMs: number; html: Promise<string> } | undefined;
 async function loadViewerHtml(): Promise<string> {
-  const file = path.join(DIST_DIR, "mcp-app.html");
+  const file = VIEWER_BUNDLE;
   const stat = await fs.stat(file).catch(() => undefined);
   if (!stat) {
     throw new Error(

@@ -13,6 +13,7 @@ import type { Request, Response } from "express";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { VIEWER_BUNDLE } from "./paths.js";
 import { createServer } from "./server.js";
 
 const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -28,7 +29,7 @@ const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
  */
 async function warnIfViewerStale(): Promise<void> {
   try {
-    const bundle = path.join(MODULE_DIR, "dist", "mcp-app.html");
+    const bundle = VIEWER_BUNDLE;
     const bundleStat = await fs.stat(bundle).catch(() => undefined);
     if (!bundleStat) {
       console.error(
