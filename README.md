@@ -26,6 +26,7 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional_Commits-1.0.0-yellow.svg)](https://www.conventionalcommits.org)
 [![GitHub stars](https://img.shields.io/github/stars/SalZaki/doodleworks-mcp)](https://github.com/SalZaki/doodleworks-mcp/stargazers)
 [![Last commit](https://img.shields.io/github/last-commit/SalZaki/doodleworks-mcp)](https://github.com/SalZaki/doodleworks-mcp/commits/main)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-support-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/salzaki)
 ![status: personal-tier](https://img.shields.io/badge/status-personal--tier-orange.svg)
 
 <img src="assets/style-references/wiki-00-less-code-more-knowledge.png" width="680" alt="A hand-drawn Tinku illustration: messy papers fed through a hand-cranked mill come out as a tidy linked wiki." />
@@ -468,6 +469,16 @@ Personal-tier and experimental, but it works: `pnpm install && pnpm build && pnp
 - [CONTRIBUTING.md](CONTRIBUTING.md): dev setup, the test-first workflow, and the Tinku sync gate.
 - [SECURITY.md](SECURITY.md): report a vulnerability privately.
 - [CHANGELOG.md](CHANGELOG.md): notable changes.
+
+## ☕ Support this project
+
+Doodleworks is free and maintained in my spare time. If it's useful to you, a coffee helps cover image-API and hosting costs and keeps the updates coming. Thank you.
+
+<p align="center">
+  <a href="https://buymeacoffee.com/salzaki">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" height="48" />
+  </a>
+</p>
 
 ## 📄 License
 
