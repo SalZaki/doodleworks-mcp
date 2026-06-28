@@ -14,11 +14,18 @@
 <!-- status & trust -->
 [![npm version](https://img.shields.io/npm/v/doodleworks-mcp.svg)](https://www.npmjs.com/package/doodleworks-mcp)
 [![npm downloads](https://img.shields.io/npm/dm/doodleworks-mcp.svg)](https://www.npmjs.com/package/doodleworks-mcp)
+[![install size](https://packagephobia.com/badge?p=doodleworks-mcp)](https://packagephobia.com/result?p=doodleworks-mcp)
 [![CI](https://github.com/SalZaki/doodleworks-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/SalZaki/doodleworks-mcp/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/SalZaki/doodleworks-mcp/actions/workflows/codeql.yml/badge.svg)](https://github.com/SalZaki/doodleworks-mcp/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/SalZaki/doodleworks-mcp/badge)](https://scorecard.dev/viewer/?uri=github.com/SalZaki/doodleworks-mcp)
 [![Socket Security](https://badge.socket.dev/npm/package/doodleworks-mcp/1.0.0)](https://socket.dev/npm/package/doodleworks-mcp) <!-- x-release-please-version -->
+[![Release](https://github.com/SalZaki/doodleworks-mcp/actions/workflows/release.yml/badge.svg)](https://github.com/SalZaki/doodleworks-mcp/actions/workflows/release.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor_Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Conventional Commits](https://img.shields.io/badge/Conventional_Commits-1.0.0-yellow.svg)](https://www.conventionalcommits.org)
+[![GitHub stars](https://img.shields.io/github/stars/SalZaki/doodleworks-mcp)](https://github.com/SalZaki/doodleworks-mcp/stargazers)
+[![Last commit](https://img.shields.io/github/last-commit/SalZaki/doodleworks-mcp)](https://github.com/SalZaki/doodleworks-mcp/commits/main)
 ![status: personal-tier](https://img.shields.io/badge/status-personal--tier-orange.svg)
 
 <img src="assets/style-references/wiki-00-less-code-more-knowledge.png" width="680" alt="A hand-drawn Tinku illustration: messy papers fed through a hand-cranked mill come out as a tidy linked wiki." />
