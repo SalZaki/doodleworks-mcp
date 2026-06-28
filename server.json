@@ -3,7 +3,7 @@
   "name": "io.github.salzaki/doodleworks-mcp",
   "title": "Doodleworks MCP",
   "description": "Hand-drawn explainer illustrations in your AI host, via an MCP App with an interactive viewer.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "repository": {
     "url": "https://github.com/SalZaki/doodleworks-mcp",
     "source": "github"
@@ -13,7 +13,7 @@
     {
       "registryType": "npm",
       "identifier": "doodleworks-mcp",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "transport": {
         "type": "stdio"
       },

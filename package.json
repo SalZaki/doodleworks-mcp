@@ -1,10 +1,12 @@
 {
   "name": "doodleworks-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "mcpName": "io.github.salzaki/doodleworks-mcp",
   "private": false,
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public",
     "provenance": true
@@ -33,7 +35,9 @@
     "openai",
     "gemini"
   ],
-  "bin": { "doodleworks-mcp": "dist/main.js" },
+  "bin": {
+    "doodleworks-mcp": "dist/main.js"
+  },
   "engines": {
     "node": ">=22"
   },
