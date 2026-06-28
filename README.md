@@ -23,6 +23,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor_Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-support-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/salzaki)
 [![Conventional Commits](https://img.shields.io/badge/Conventional_Commits-1.0.0-yellow.svg)](https://www.conventionalcommits.org)
 [![GitHub stars](https://img.shields.io/github/stars/SalZaki/doodleworks-mcp)](https://github.com/SalZaki/doodleworks-mcp/stargazers)
 [![Last commit](https://img.shields.io/github/last-commit/SalZaki/doodleworks-mcp)](https://github.com/SalZaki/doodleworks-mcp/commits/main)
@@ -468,6 +469,10 @@ Personal-tier and experimental, but it works: `pnpm install && pnpm build && pnp
 - [CONTRIBUTING.md](CONTRIBUTING.md): dev setup, the test-first workflow, and the Tinku sync gate.
 - [SECURITY.md](SECURITY.md): report a vulnerability privately.
 - [CHANGELOG.md](CHANGELOG.md): notable changes.
+
+## ☕ Support this project
+
+Doodleworks is free and maintained in my spare time. If it's useful to you, you can [buy me a coffee](https://buymeacoffee.com/salzaki) — it helps cover image-API and hosting costs and keeps the updates coming. Thank you.
 
 ## 📄 License
 
