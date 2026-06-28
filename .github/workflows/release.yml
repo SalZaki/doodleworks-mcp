@@ -13,9 +13,10 @@ on:
         required: true
         default: "v1.0.0"
 
+# Least privilege at the top level; the release-please job opts into the
+# writes it needs (Scorecard Token-Permissions: top-level writes floor the score).
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
   group: release-${{ github.ref }}
@@ -25,6 +26,9 @@ jobs:
   release-please:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the tag + GitHub Release + release-PR commits
+      pull-requests: write # open/update the Release PR
     outputs:
       release_created: ${{ steps.rp.outputs.release_created }}
       tag_name: ${{ steps.rp.outputs.tag_name }}
@@ -54,7 +58,9 @@ jobs:
           registry-url: "https://registry.npmjs.org"
           cache: pnpm
       - name: Upgrade npm (OIDC trusted publishing needs a recent npm)
-        run: npm install -g npm@latest
+        # Pinned to an exact version (Scorecard Pinned-Dependencies); bump deliberately.
+        # OIDC trusted publishing requires npm >= 11.5.1.
+        run: npm install -g npm@11.17.0
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - name: Smoke-test the packed tarball
