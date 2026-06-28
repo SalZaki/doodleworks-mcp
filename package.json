@@ -1,6 +1,7 @@
 {
   "name": "doodleworks-mcp",
   "version": "1.0.0",
+  "mcpName": "io.github.salzaki/doodleworks-mcp",
   "private": false,
   "type": "module",
   "files": ["dist"],
