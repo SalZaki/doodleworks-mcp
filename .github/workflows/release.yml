@@ -75,3 +75,26 @@ jobs:
         # doodleworks-mcp package on npmjs.com) — no token. --provenance attests via
         # id-token: write (above). The one-time NPM_TOKEN bootstrap is retired.
         run: npm publish --provenance --access public --ignore-scripts
+
+  publish-registry:
+    needs: [release-please, publish-npm]
+    # After the npm package is live, publish server.json to the official MCP
+    # registry. Only on a real release — skipped on the workflow_dispatch npm
+    # re-publish path (that version is already registered). Keyless: GitHub OIDC.
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # OIDC auth to the MCP registry (mcp-publisher login github-oidc)
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ needs.release-please.outputs.tag_name }}
+      - name: Install mcp-publisher
+        # Pinned to a release (Scorecard Pinned-Dependencies); bump deliberately.
+        run: |
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/download/v1.7.9/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+      - name: Authenticate to the MCP registry (GitHub OIDC)
+        run: ./mcp-publisher login github-oidc
+      - name: Publish server.json to the MCP registry
+        run: ./mcp-publisher publish
