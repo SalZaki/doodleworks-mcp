@@ -4,6 +4,13 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1](https://github.com/SalZaki/doodleworks-mcp/compare/v1.1.0...v1.1.1) (2026-06-30)
+
+
+### Bug Fixes
+
+* use exact-case GitHub namespace for MCP registry (io.github.SalZaki) ([#45](https://github.com/SalZaki/doodleworks-mcp/issues/45)) ([c7c6ba5](https://github.com/SalZaki/doodleworks-mcp/commit/c7c6ba5b8785c36f01a63f9e7c9611c53130e4b8))
+
 ## [1.1.0](https://github.com/SalZaki/doodleworks-mcp/compare/v1.0.0...v1.1.0) (2026-06-28)
 
 
