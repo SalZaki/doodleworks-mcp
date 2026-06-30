@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.salzaki/doodleworks-mcp",
+  "name": "io.github.SalZaki/doodleworks-mcp",
   "title": "Doodleworks MCP",
   "description": "Hand-drawn explainer illustrations in your AI host, via an MCP App with an interactive viewer.",
   "version": "1.1.0",
