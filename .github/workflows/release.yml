@@ -55,13 +55,13 @@ jobs:
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version: 24
+          registry-url: "https://registry.npmjs.org"
           cache: pnpm
-          # NOTE: do NOT set registry-url here. With registry-url and no token,
-          # setup-node writes an .npmrc with a placeholder NODE_AUTH_TOKEN
-          # (XXXXX-XXXXX-XXXXX-XXXXX), so npm attempts token auth and 404s instead
-          # of using OIDC trusted publishing. Omitting it lets npm publish to the
-          # default registry (registry.npmjs.org) via OIDC. (npm defaults to that
-          # registry anyway.)
+          # registry-url is REQUIRED so npm targets npmjs.org and triggers OIDC
+          # trusted publishing. Do NOT set NODE_AUTH_TOKEN on the publish step:
+          # with a Trusted Publisher configured on the package + id-token: write,
+          # npm uses OIDC and ignores setup-node's placeholder token. (Omitting
+          # registry-url instead makes npm fail with ENEEDAUTH.)
       - name: Upgrade npm (OIDC trusted publishing needs a recent npm)
         # Pinned to an exact version (Scorecard Pinned-Dependencies); bump deliberately.
         # OIDC trusted publishing requires npm >= 11.5.1.
